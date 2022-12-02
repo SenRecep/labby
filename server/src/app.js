@@ -16,9 +16,9 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log("Press Ctrl+C to quit.");
 
-  //   mongoose
-  //     .connect(process.env.DATABASE_CONNECTION_URL)
-  //     .then(() => console.log("Database connection successful"))
-  //     .catch(() => console.log("Database connection fail"));
+     mongoose
+       .connect(process.env.DATABASE_CONNECTION_URL)
+       .then(() => console.log("Database connection successful"))
+       .catch(() => console.log("Database connection fail"));
   console.log(`url: http://localhost:${PORT}`);
 });
