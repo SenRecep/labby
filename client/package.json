@@ -7,9 +7,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^2.7.0",
     "@mdi/font": "7.0.96",
+    "axios": "^1.2.0",
+    "pinia": "^2.0.27",
     "roboto-fontface": "*",
     "vue": "^3.2.38",
+    "vue-router": "^4.1.6",
     "vuetify": "^3.0.0",
     "webfontloader": "^1.0.0"
   },
