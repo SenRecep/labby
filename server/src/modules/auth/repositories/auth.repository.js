@@ -2,6 +2,9 @@ import User from "../models/User.schema.js";
 
 class UserRepository {
   create(user) {
+    if(this.ifExistUser(user.email)) {
+      throw new Error("email has been already exist");
+    }
     return User.create(user);
   }
   async ifExistUser(email) {

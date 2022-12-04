@@ -1,25 +1,18 @@
-import authRepository from "../repositories/auth.repository.js";
+import jwt from "jsonwebtoken";
 
-class UserService {
-  getAll() {
-    return authRepository.getAll();
-  }
-  getById(id) {
-    return authRepository.getById(id);
-  }
-  createUser(user) {
-    return authRepository.create(user);
-  }
-  deleteUser(id) {
-    return authRepository.deleteById(id);
-  }
-  updatePassword(user){
-    return authRepository.updateById(user);
-  }
+class jwtToken {
+  maxAge = 3 * 24 * 60 * 60;
+  creatToken = (id, email, name, surname, studentNumber) => {
+    return jwt.sign({ id, email, name, surname, studentNumber }, "jwt", {
+      expiresIn: maxAge,
+    });
+  };
 }
 
-const instance = new UserService();
 
-export default instance;
 
-export { UserService };
+const token = new jwtToken();
+
+export default token;
+
+export { jwtToken };
