@@ -2,14 +2,16 @@ import jwt from "jsonwebtoken";
 
 class jwtToken {
   maxAge = 3 * 24 * 60 * 60;
-  creatToken = (id, email, name, surname, studentNumber) => {
-    return jwt.sign({ id, email, name, surname, studentNumber }, "jwt", {
-      expiresIn: maxAge,
-    });
+  creatToken = ({ _id, email, name, surname, studentNumber, role }) => {
+    return jwt.sign(
+      { id: _id.toString(), email, name, surname, studentNumber, role },
+      "jwt",
+      {
+        expiresIn: this.maxAge,
+      }
+    );
   };
 }
-
-
 
 const token = new jwtToken();
 

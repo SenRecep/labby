@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+import {roles} from "../../../constants/roleInfo.js";
 
 let UserSchema = new Schema({
   name: {
@@ -24,6 +25,11 @@ let UserSchema = new Schema({
     required: [true, "Student Number is required"],
     unique:true
   },
+  role:{
+    type:String,
+        enum:[roles.admin,roles.assistant,roles.student],
+        default:roles.student
+  }
 });
 
 const User = mongoose.model("user", UserSchema);

@@ -7,19 +7,21 @@ class UserService {
   getById(id) {
     return authRepository.getById(id);
   }
- async createUser(user) {
+  async createUser(user) {
     try {
-    return await authRepository.create(user);
+      return await authRepository.create(user);
     } catch (Error) {
-        throw Error;
+      throw Error;
     }
- 
   }
   deleteUser(id) {
     return authRepository.deleteById(id);
   }
-  updatePassword(user){
+  updatePassword(user) {
     return authRepository.updateById(user);
+  }
+  getUser({ email, password }) {
+    return authRepository.findOne({ email, password });
   }
 }
 
