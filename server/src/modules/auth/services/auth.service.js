@@ -1,20 +1,17 @@
-import jwt from "jsonwebtoken";
-
-class jwtToken {
-  maxAge = 3 * 24 * 60 * 60;
-  creatToken = ({ _id, email, name, surname, studentNumber, role }) => {
-    return jwt.sign(
-      { id: _id.toString(), email, name, surname, studentNumber, role },
-      "jwt",
-      {
-        expiresIn: this.maxAge,
-      }
-    );
-  };
+import userRepository from "../repositories/user.repository.js";
+import jwtService from "./jwt.service.js";
+import SignInResponseDto from "../dtos/signInResponse.dto.js";
+class AuthService {
+  async signIn({ email, password }) {
+    const found = await userRepository.getByEmailAndPassword(email, password);
+    if (!found) throw new Error("Not found user");
+    const token = jwtService.creatToken(found);
+    return new SignInResponseDto(token);
+  }
 }
 
-const token = new jwtToken();
+const instance = new AuthService();
 
-export default token;
+export default instance;
 
-export { jwtToken };
+export { AuthService };

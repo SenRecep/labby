@@ -1,13 +1,7 @@
 import express from "express";
-import { addAssistant,deleteUser,getAssistant } from "../controllers/admin.controller.js";
+import { createAssistant } from "../controllers/admin.controller.js";
 const router = express.Router();
 
-
-router.route("/")
-.get(getAssistant)
-.post(addAssistant);
-
-router.route("/:id")
-.delete(deleteUser);
+router.route("/").post(createAssistant);
 
 export default router;

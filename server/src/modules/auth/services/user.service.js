@@ -1,47 +1,31 @@
 import UserViewDto from "../dtos/userView.dto.js";
-import authRepository from "../repositories/auth.repository.js";
+import userRepository from "../repositories/user.repository.js";
 
 class UserService {
   async getAll() {
-    const users = await authRepository.getAll();
+    const users = await userRepository.getAll();
     const models = users.map((user) => new UserViewDto(user));
     return models;
   }
- async getUsers(role){
-  try {
-    const users = await authRepository.getByRole(role);
+  async getAllByRole(role) {
+    const users = await userRepository.getAllByRole(role);
     const models = users.map((user) => new UserViewDto(user));
     return models;
-  } catch (error) {
-    throw Error;
-  }
-    
   }
   async getById(id) {
-    const user = await authRepository.getById(id);
-    const model = new UserViewDto(user);
-    return model;
+    const user = await userRepository.getById(id);
+    return new UserViewDto(user);
   }
   async createUser(user) {
-    try {
-      return await authRepository.create(user);
-    } catch (Error) {
-      throw Error;
-    }
+    const created = await userRepository.create(user);
+    return new UserViewDto(created);
   }
   deleteUser(id) {
-    return authRepository.deleteById(id);
+    return userRepository.deleteById(id);
   }
-  updatePassword(user) {
-    return authRepository.updateById(user);
-  }
-  getUser({ email, password }) {
-    try {
-      console.log("asfdg");
-      return authRepository.findOne({ email, password });
-    } catch (error) {
-      throw new Error(error);
-    }
+  async updatePassword(user) {
+    const updated = await userRepository.updatePassword(user);
+    return new UserViewDto(updated);
   }
 }
 

@@ -1,16 +1,10 @@
-import { roles } from "../../../constants/roleInfo.js";
-import authRepository from "../../auth/repositories/auth.repository.js";
+import { RoleInfo } from "../../../constants/roleInfo.js";
+import userRepository from "../../auth/repositories/user.repository.js";
 
 class AdminRepository {
-  async createAssistant(user) {
-    user.role = roles.assistant;
-    return await authRepository.create(user);
-  }
-  getAllUser() {
-    return authRepository.getAll();
-  }
-  deleteUser(id){
-    return authRepository.deleteById(id);
+  createAssistant(user) {
+    user.role = RoleInfo.assistant;
+    return userRepository.create(user);
   }
 }
 

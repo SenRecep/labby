@@ -1,5 +1,5 @@
-export const roles = {
-    admin: 'ADMIN',
-    assistant: 'ASSITANT',
-    student: 'STUDENT'
+export const RoleInfo = {
+  admin: "ADMIN",
+  assistant: "ASSITANT",
+  student: "STUDENT",
 };
