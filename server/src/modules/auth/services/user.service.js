@@ -7,6 +7,16 @@ class UserService {
     const models = users.map((user) => new UserViewDto(user));
     return models;
   }
+ async getUsers(role){
+  try {
+    const users = await authRepository.getByRole(role);
+    const models = users.map((user) => new UserViewDto(user));
+    return models;
+  } catch (error) {
+    throw Error;
+  }
+    
+  }
   async getById(id) {
     const user = await authRepository.getById(id);
     const model = new UserViewDto(user);

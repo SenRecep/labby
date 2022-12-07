@@ -37,6 +37,15 @@ export const getByIdRequest = async (req, res) => {
   res.status(200).json(data);
 };
 
+export const getByRoleRequest = async (req, res) => {
+  try {
+    const data = await userService.getUsers(req.params.role);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
 export const deleteByIdRequest = async (req, res) => {
   await userService.deleteUser(req.params.id);
   res.status(200).json("User deleted");

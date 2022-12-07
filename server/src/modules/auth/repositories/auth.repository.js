@@ -18,6 +18,9 @@ class UserRepository {
   getByEmail(email) {
     return User.findOne({ email: email });
   }
+  getByRole(role) {
+    return User.find({ role });
+  }
   getAll() {
     return User.find({});
   }
