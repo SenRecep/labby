@@ -1,6 +1,7 @@
 import userService from "../services/user.service.js";
 import UserCreateDto from "../dtos/user.create.dto.js";
 import UserUpdateDto from "../dtos/user.update.dto.js";
+import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 
 export const getAllRequest = async (_, res) => {
