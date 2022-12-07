@@ -28,8 +28,7 @@ export const signIn = async (req, res) => {
     const response = new SignInResponseDto(token);
     res.status(201).json(response);
   } catch (error) {
-    console.log("succes", error);
-    res.status(400).json(error);
+    res.status(400).json(error.message);
   }
 };
 

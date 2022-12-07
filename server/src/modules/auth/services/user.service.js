@@ -1,11 +1,16 @@
+import UserViewDto from "../dtos/userView.dto.js";
 import authRepository from "../repositories/auth.repository.js";
 
 class UserService {
-  getAll() {
-    return authRepository.getAll();
+  async getAll() {
+    const users = await authRepository.getAll();
+    const models = users.map((user) => new UserViewDto(user));
+    return models;
   }
-  getById(id) {
-    return authRepository.getById(id);
+  async getById(id) {
+    const user = await authRepository.getById(id);
+    const model = new UserViewDto(user);
+    return model;
   }
   async createUser(user) {
     try {
@@ -21,7 +26,12 @@ class UserService {
     return authRepository.updateById(user);
   }
   getUser({ email, password }) {
-    return authRepository.findOne({ email, password });
+    try {
+      console.log("asfdg");
+      return authRepository.findOne({ email, password });
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
 
