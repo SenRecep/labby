@@ -11,7 +11,7 @@ export const getAllRequest = async (req, res) => {
     .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
 };
 
-export const postRequest = async (req, res) => {
+export const postRequest = async (req, res,next) => {
   const model = new UserCreateDto(req.body);
   try {
     const response = await userService.createUser(model);
@@ -19,7 +19,7 @@ export const postRequest = async (req, res) => {
       .status(HttpStatusCodes.CREATED)
       .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
   } catch (error) {
-    return res.status(HttpStatusCodes.BAD_REQUEST).json(error.message);
+    next(error);
   }
 };
 
@@ -30,7 +30,7 @@ export const getByIdRequest = async (req, res) => {
     .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
 };
 
-export const getByRoleRequest = async (req, res) => {
+export const getByRoleRequest = async (req, res,next) => {
   try {
     const { role } = req.params;
     const data = await userService.getAllByRole(role);
@@ -38,7 +38,7 @@ export const getByRoleRequest = async (req, res) => {
       .status(HttpStatusCodes.OK)
       .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
   } catch (error) {
-    return res.status(HttpStatusCodes.BAD_REQUEST).json(error.message);
+    next(error);
   }
 };
 
