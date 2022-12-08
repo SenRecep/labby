@@ -34,9 +34,12 @@ export const authMiddleware = (req, res, next) => {
       return res
         .status(HttpStatusCodes.BAD_REQUEST)
         .json(
-          ServiceResponse.fail(HttpStatusCodes.BAD_REQUEST, false, [
-            err.message,
-          ])
+          ServiceResponse.fail(
+            HttpStatusCodes.BAD_REQUEST,
+            false,
+            "authMiddleware",
+            [err.message]
+          )
         );
 
     if (Date.now() >= decoded.exp * 1000)
