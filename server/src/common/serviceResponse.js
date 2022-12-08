@@ -1,11 +1,11 @@
 import HttpStatusCodes from "http-status-codes";
-import { Error } from "./error.js";
+import { ErrorResponse } from "./error.js";
 export class ServiceResponse {
   constructor(data, statusCode, error = null, isSuccessful = null) {
-    this.data = data ?? null;
+    if (data) this.data = data;
     this.statusCode = statusCode ?? HttpStatusCodes.OK;
     this.isSuccessful = isSuccessful ?? true;
-    this.error = error;
+    if (error) this.error = error;
   }
   static success(statusCode = HttpStatusCodes.OK) {
     return new ServiceResponse(null, statusCode);
@@ -17,7 +17,7 @@ export class ServiceResponse {
     return new ServiceResponse(
       null,
       statusCode,
-      new Error(errors, isShow, path),
+      new ErrorResponse(errors, isShow, path),
       false
     );
   }

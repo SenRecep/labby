@@ -1,4 +1,4 @@
-export class Error {
+export class ErrorResponse {
   constructor(errors, isShow, path) {
     this.errors = errors ?? [];
     this.isShow = isShow ?? true;
