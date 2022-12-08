@@ -6,7 +6,9 @@ export const createAssistant = async (req, res) => {
   const addAAssistant = new UserCreateDto(req.body);
   try {
     const data = await adminService.createAssistant(addAAssistant);
-    res.status(HttpStatusCodes.CREATED).json(data);
+    res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
   } catch (error) {
     res.status(HttpStatusCodes.BAD_REQUEST).json(error.message);
   }
