@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 class JwtService {
   maxAge = 3 * 24 * 60 * 60;
-  creatToken = ({ _id, email, name, surname, studentNumber, role }) => {
+  createToken = ({ _id, email, name, surname, studentNumber, role }) => {
     return jwt.sign(
       { id: _id.toString(), email, name, surname, studentNumber, role },
       process.env.JWT_SECRET,
@@ -11,6 +11,13 @@ class JwtService {
       }
     );
   };
+  verify(token, callback) {
+    try {
+      jwt.verify(token, process.env.JWT_SECRET, callback);
+    } catch (err) {
+      callback(err);
+    }
+  }
 }
 
 const instance = new JwtService();

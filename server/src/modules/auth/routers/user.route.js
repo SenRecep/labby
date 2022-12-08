@@ -1,4 +1,9 @@
 import express from "express";
+import { RoleInfo } from "../../../constants/roleInfo.js";
+import {
+  requiredAuthMiddleware,
+  requiredRoleMiddleware,
+} from "../../../middlewares/auth.middleware.js";
 import { validationResponseMiddleware } from "../../../middlewares/validationResponse.middleware.js";
 import controller from "../controllers/user.controller.js";
 import { userValidator } from "../validators/userValidator.js";
@@ -13,7 +18,11 @@ router
 router
   .route("/:id")
   .get(controller.getByIdRequest)
-  .delete(controller.deleteByIdRequest);
+  .delete(
+    requiredAuthMiddleware,
+    requiredRoleMiddleware(RoleInfo.admin),
+    controller.deleteByIdRequest
+  );
 
 router.route("/role/:role").get(controller.getByRoleRequest);
 

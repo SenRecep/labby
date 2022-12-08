@@ -4,7 +4,7 @@ import UserUpdateDto from "../dtos/user.update.dto.js";
 import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 
-export const getAllRequest = async (_, res) => {
+export const getAllRequest = async (req, res) => {
   const data = await userService.getAll();
   return res
     .status(HttpStatusCodes.OK)
@@ -45,9 +45,9 @@ export const getByRoleRequest = async (req, res) => {
 export const deleteByIdRequest = async (req, res) => {
   const { id } = req.params;
   await userService.deleteUser(id);
-  return res //.status(HttpStatusCodes.OK).json("User deleted");
+  return res
     .status(HttpStatusCodes.OK)
-    .json(ServiceResponse.successWithData(HttpStatusCodes.OK));
+    .json(ServiceResponse.successWithData(null, HttpStatusCodes.OK));
 };
 
 export const updatePasswordByIdRequest = async (req, res) => {
