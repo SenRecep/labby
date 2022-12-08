@@ -1,5 +1,7 @@
 import User from "../models/User.schema.js";
 import bcrypt from "bcrypt";
+import {  ApiError} from "../../../common/apiError.js";
+import HttpStatusCodes from 'http-status-codes';
 
 class UserRepository {
   async hashPassword(password) {
@@ -8,7 +10,7 @@ class UserRepository {
   }
   async create(user) {
     const found = await this.ifExistUser(user.email);
-    if (found != null) throw new Error("email has been already exist");
+    if (found != null) throw new ApiError("email has been already exist",HttpStatusCodes.BAD_REQUEST,'userrepository->signup');
     user.password = await this.hashPassword(user.password);
     return User.create(user);
   }
@@ -29,9 +31,9 @@ class UserRepository {
   }
   async getByEmailAndPassword(email, password) {
     const found = await this.ifExistUser(email);
-    if (!found) throw new Error("Not found user");
+    if (!found) throw new ApiError("Not found user",HttpStatusCodes.NOT_FOUND,'userrepository->signin');
     const isCompare = await bcrypt.compare(password, found.password);
-    if (!isCompare) throw new Error("Invalid email or password");
+    if (!isCompare) throw new ApiError("Invalid email or password",HttpStatusCodes.BAD_REQUEST,'userrepository->signin');
     return found;
   }
   deleteById(id) {
