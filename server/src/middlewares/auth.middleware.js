@@ -74,9 +74,9 @@ export const requiredAuthMiddleware = (req, res, next) => {
   next();
 };
 
-export const requiredRoleMiddleware = (role) => {
+export const requiredRoleMiddleware = (roles = []) => {
   return (req, res, next) => {
-    if (req.user.role !== role)
+    if (roles.some((x) => x === req.user.role))
       return res
         .status(HttpStatusCodes.FORBIDDEN)
         .json(
