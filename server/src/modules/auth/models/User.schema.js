@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 import { RoleInfo } from "../../../constants/roleInfo.js";
 
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
   name: {
     type: String,
     required: [true, "Name is required"],
