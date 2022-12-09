@@ -12,7 +12,7 @@ class AuthService {
         HttpStatusCodes.NOT_FOUND,
         "authservice->signin"
       );
-    const token = jwtService.creatToken(found);
+    const token = jwtService.createToken(found);
     return new SignInResponseDto(token);
   }
 }
