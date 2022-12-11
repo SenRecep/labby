@@ -3,7 +3,7 @@ import { loadFonts } from "./webfontloader";
 import vuetify from "./vuetify";
 
 // Routers
-import router from "@/router";
+import routers from "@/routers";
 
 // States
 import { createPinia } from "pinia";
@@ -18,7 +18,7 @@ import type { App } from "vue";
 export function registerPlugins(app: App) {
   loadFonts();
   app.use(vuetify);
-  app.use(router);
+  app.use(routers);
   app.use(pinia);
   app.use(Notifications);
 }

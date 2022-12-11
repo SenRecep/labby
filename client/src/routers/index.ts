@@ -2,7 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.view.vue";
 import NotFound from "@/views/Notfound.view.vue";
 
-// createWebHistory();
+import authRoutes from "@/modules/auth/routers";
+
 const routes: Array<RouteRecordRaw> = [
   {
     name: "home",
@@ -14,6 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/list",
     component: () => import("@/views/List.view.vue"),
   },
+  ...authRoutes,
   {
     name: "notfound",
     path: "/:catchAll(.*)",
