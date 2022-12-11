@@ -5,7 +5,7 @@ import { useLayoutStore } from "../stores/layout.store";
 const layoutStore = useLayoutStore();
 
 const items = reactive([
-  { title: "Anasayfa", icon: "mdi-home-variant-outline", path: "/" },
+  { title: "Home", icon: "mdi-home-variant-outline", path: "/" },
   {
     title: "List",
     icon: "mdi-calculator-variant-outline",
@@ -17,7 +17,7 @@ const items = reactive([
 <template>
   <v-navigation-drawer v-model="layoutStore.drawer" temporary>
     <v-list>
-      <v-list-item title="Sayfalar" />
+      <v-list-item title="Pages" />
     </v-list>
 
     <v-divider></v-divider>
