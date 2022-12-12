@@ -5,8 +5,10 @@ import { required, email } from "@vuelidate/validators";
 import authHttpRepository from "../../../api/auth.http.repository";
 import { useLoadingStore } from "../../../stores/loading.store";
 import { ServiceResponse } from "../../../types/ServiceResponse.interface";
-import { Token } from "../../../types/Token.interface";
+import { SignInResponse } from "../../../types/SignInResponse.interface";
+import { useAuthStore } from "../../../stores/auth.store";
 const loadingStore = useLoadingStore();
+const authStore = useAuthStore();
 const formState = reactive({
   email: "",
   password: "",
@@ -29,10 +31,17 @@ const formSubmit = async () => {
   loadingStore.beginLoading();
   const response = (await authHttpRepository.signIn(formState, () =>
     loadingStore.endLoading()
-  )) as ServiceResponse<Token>;
-  console.log(response);
+  )) as ServiceResponse<SignInResponse>;
+  console.log(response.data?.profile);
+  console.log(response.data?.accessToken);
 
-  if (!response.isSuccessful) apiErrors.errors = response.error!.errors;
+  if (!response.isSuccessful) {
+    apiErrors.errors = response.error!.errors;
+    return;
+  }
+
+  authStore.setToken(response.data?.accessToken);
+  authStore.setUser(response.data?.profile);
 };
 </script>
 

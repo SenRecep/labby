@@ -1,5 +1,21 @@
+<script setup lang="ts">
+import { useAuthStore } from "@/stores/auth.store";
+import Authenticate from "../auth/Authenticate.vue";
+const authStore = useAuthStore();
+</script>
+
 <template>
-  <v-btn to="/auth/login" prepend-icon="mdi-login">Login</v-btn>
-  <v-btn to="/auth/register" prepend-icon="mdi-account-plus">Register</v-btn>
-  <v-btn to="/auth/logout" prepend-icon="mdi-logout">Logout</v-btn>
+  <authenticate>
+    <template #authorized>
+      Welcome!
+      {{ authStore.user?.name }}
+      <v-btn to="/auth/logout" prepend-icon="mdi-logout">Logout</v-btn>
+    </template>
+    <template #unauthorized>
+      <v-btn to="/auth/login" prepend-icon="mdi-login">Login</v-btn>
+      <v-btn to="/auth/register" prepend-icon="mdi-account-plus"
+        >Register</v-btn
+      ></template
+    >
+  </authenticate>
 </template>
