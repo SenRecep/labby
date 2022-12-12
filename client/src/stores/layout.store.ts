@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
+import constants from "./constants";
 
 export const useLayoutStore = defineStore({
-  id: "layoutStore",
+  id: constants.layaoutStore,
   state: () => ({
     drawer: false,
   }),

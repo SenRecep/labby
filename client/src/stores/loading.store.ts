@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
+import constants from "./constants";
 
 export const useLoadingStore = defineStore({
-  id: "loadingStore",
+  id: constants.loadingStore,
   state: () => ({
     isLoading: false,
   }),
