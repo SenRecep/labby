@@ -1,6 +1,5 @@
 import * as dotenv from "dotenv";
 import express from "express";
-import Session from "./modules/lab/models/Session.schema.js";
 import { usePlugins, useMongoDB } from "./plugins/index.js";
 
 dotenv.config();
