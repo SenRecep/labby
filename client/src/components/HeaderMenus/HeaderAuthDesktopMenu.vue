@@ -8,7 +8,7 @@ const authStore = useAuthStore();
   <authenticate>
     <template #authorized>
       Welcome!
-      {{ authStore.user?.name }}
+      {{ authStore.user?.name }} {{ authStore.user?.surname }}
       <v-btn to="/auth/logout" prepend-icon="mdi-logout">Logout</v-btn>
     </template>
     <template #unauthorized>

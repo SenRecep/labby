@@ -3,4 +3,5 @@ export interface User {
   surname: string;
   email: string;
   studentNumber: string;
+  role: string;
 }
