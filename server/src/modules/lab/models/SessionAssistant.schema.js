@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
-import {UserSchema} from "../../auth/models/User.schema.js";
+import User from "../../auth/models/User.schema.js";
+import UserSchema from "../../auth/models/User.schema.js";
 const Schema = mongoose.Schema;
 
 
 export const sessionAssistantSchema = new Schema({
-    userId:[
+    user:
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: UserSchema
+            ref: "users"
         }
-    ],
+    ,
     changeTime:{
         type:Date,
+       default:Date.now,
         required:true
     },
 });
