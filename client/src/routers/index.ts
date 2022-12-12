@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.view.vue";
 
 import authRoutes from "@/modules/auth/routers";
+import { useAuthStore } from "@/stores/auth.store";
+import { Roles } from "../constants/roles.constant";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: "list",
     path: "/list",
+    meta: { requiresAuth: true, roles: [Roles.admin] },
     component: () => import("@/views/List.view.vue"),
   },
   ...authRoutes,
@@ -25,6 +28,24 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  console.log(from);
+
+  const authStore = useAuthStore();
+  authStore.load();
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated)
+    return { name: "login" };
+
+  if (
+    to.meta.requiresAuth &&
+    authStore.isAuthenticated &&
+    to.meta.roles &&
+    !to.meta.roles.some((x) => x === authStore.user?.role)
+  )
+    return { name: "forbidden" };
 });
 
 export default router;

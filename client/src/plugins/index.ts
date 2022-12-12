@@ -18,7 +18,7 @@ import type { App } from "vue";
 export function registerPlugins(app: App) {
   loadFonts();
   app.use(vuetify);
-  app.use(routers);
   app.use(pinia);
+  app.use(routers);
   app.use(Notifications);
 }

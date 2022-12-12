@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/auth/register",
     component: () => import("@/modules/auth/views/Register.vue"),
   },
+  {
+    name: "forbidden",
+    path: "/auth/forbidden",
+    component: () => import("@/modules/auth/views/Forbidden.vue"),
+  },
 ];
 
 export default routes;
