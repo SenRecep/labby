@@ -1,6 +1,8 @@
+import UserViewDto from "./userView.dto.js";
 export class SignInResponseDto {
-  constructor(token) {
+  constructor(token, user) {
     this.accessToken = token;
+    this.profile = new UserViewDto(user);
   }
 }
 

@@ -21,7 +21,7 @@ export const UserSchema = new Schema({
     required: [true, "Password is required"],
   },
   studentNumber: {
-    type: Number,
+    type: String,
     required: [true, "Student Number is required"],
     unique: true,
   },

@@ -16,6 +16,10 @@ router
   .put(controller.updatePasswordByIdRequest);
 
 router
+  .route("/profile")
+  .get(requiredAuthMiddleware, controller.getByTokenRequest);
+
+router
   .route("/:id")
   .get(controller.getByIdRequest)
   .delete(
