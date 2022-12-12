@@ -13,7 +13,7 @@ class AuthService {
         "authservice->signin"
       );
     const token = jwtService.createToken(found);
-    return new SignInResponseDto(token);
+    return new SignInResponseDto(token, found);
   }
 }
 
