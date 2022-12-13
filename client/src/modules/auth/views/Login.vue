@@ -7,8 +7,10 @@ import { useLoadingStore } from "../../../stores/loading.store";
 import { ServiceResponse } from "../../../types/ServiceResponse.interface";
 import { SignInResponse } from "../../../types/SignInResponse.interface";
 import { useAuthStore } from "../../../stores/auth.store";
+import { useRouter } from "vue-router";
 const loadingStore = useLoadingStore();
 const authStore = useAuthStore();
+const router = useRouter();
 const formState = reactive({
   email: "",
   password: "",
@@ -32,8 +34,6 @@ const formSubmit = async () => {
   const response = (await authHttpRepository.signIn(formState, () =>
     loadingStore.endLoading()
   )) as ServiceResponse<SignInResponse>;
-  console.log(response.data?.profile);
-  console.log(response.data?.accessToken);
 
   if (!response.isSuccessful) {
     apiErrors.errors = response.error!.errors;
@@ -42,6 +42,7 @@ const formSubmit = async () => {
 
   authStore.setToken(response.data?.accessToken);
   authStore.setUser(response.data?.profile);
+  router.push({ name: "home" });
 };
 </script>
 
