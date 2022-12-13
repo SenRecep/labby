@@ -22,6 +22,9 @@ export class LocalStorageService {
   remove(key: string) {
     localStorage.removeItem(key);
   }
+  removeKeys(keys: string[]) {
+    keys.forEach((key) => this.remove(key));
+  }
   clear() {
     localStorage.clear();
   }

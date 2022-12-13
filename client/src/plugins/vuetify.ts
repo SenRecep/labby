@@ -5,22 +5,22 @@
  */
 
 // Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
 // Composables
-import { createVuetify } from 'vuetify'
+import { createVuetify } from "vuetify";
+import localStorageService from "../stores/localstorages/localstorage.service";
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+let theme = localStorageService.get("theme");
+if (!theme) {
+  const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  theme = isDarkTheme ? "dark" : "light";
+}
+
 export default createVuetify({
   theme: {
-    themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
+    defaultTheme: theme,
+    themes: {},
   },
-})
+});

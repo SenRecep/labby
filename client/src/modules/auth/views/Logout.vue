@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "../../../stores/auth.store";
 const store = useAuthStore();
 
-localStorageService.clear();
+localStorageService.removeKeys(["token", "user"]);
 store.$reset();
 
 const router = useRouter();

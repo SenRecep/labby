@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import ToggleTheme from "@/components/ToggleTheme.vue";
 import { reactive } from "vue";
 import { useLayoutStore } from "../stores/layout.store";
-
 const layoutStore = useLayoutStore();
 
 const items = reactive([
@@ -32,5 +32,6 @@ const items = reactive([
         link
       ></v-list-item>
     </v-list>
+    <template v-slot:append> <toggle-theme /></template>
   </v-navigation-drawer>
 </template>
