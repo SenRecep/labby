@@ -1,30 +1,24 @@
 import mongoose from "mongoose";
-import {UserSchema} from "../../auth/models/User.schema.js";
 const Schema = mongoose.Schema;
-import {sessionSchema} from "./Session.schema.js";
-
 
 const UserSessionSchema = new Schema({
-    userId:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: UserSchema
-        }
-    ],
-    sessionId:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: sessionSchema
-        }
-    ],
-    entryTime:{
-        type:Date,
-        required:true
-    },
-    exitTime:{
-        type:Date,
-        required:true
-    }
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
+  session: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "sessions",
+  },
+  entryTime: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
+  exitTime: {
+    type: Date,
+    required: false,
+  },
 });
 
 const UserSession = mongoose.model("userSessions", UserSessionSchema);

@@ -9,10 +9,6 @@ class sessionAssistantService {
     const user = await sessionAssistantRepository.getById(id);
     return user;
   }
-  async createUser(user) {
-    const created = await sessionAssistantRepository.createAssistant(user);
-    return created;
-  }
 }
 
 const instance = new sessionAssistantService();
