@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-import { sessionAssistantSchema } from "./SessionAssistant.schema.js";
 
 export const sessionSchema = new Schema({
   openTime: {
@@ -12,11 +11,18 @@ export const sessionSchema = new Schema({
     type: Date,
     required: false,
   },
-  assistant: [
+  assistants: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: sessionAssistantSchema,
-      require: false,
+      ref: "sessionAssistants",
+      required: false,
+    },
+  ],
+  userSessions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userSessions",
+      required: false,
     },
   ],
 });
