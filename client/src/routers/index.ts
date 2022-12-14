@@ -30,7 +30,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const authStore = useAuthStore();
   authStore.load();
 
