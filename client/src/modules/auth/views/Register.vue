@@ -8,6 +8,7 @@ import { ServiceResponse } from "../../../types/ServiceResponse.interface";
 import { SignInResponse } from "../../../types/SignInResponse.interface";
 import { useAuthStore } from "../../../stores/auth.store";
 import { useRouter } from "vue-router";
+import { User } from "@/types/User.interface";
 const loadingStore = useLoadingStore();
 const authStore = useAuthStore();
 const router = useRouter();
@@ -39,7 +40,7 @@ const formSubmit = async () => {
   loadingStore.beginLoading();
   const response = (await authHttpRepository.signUp(formState, () =>
     loadingStore.endLoading()
-  )) as ServiceResponse<SignInResponse>;
+  )) as ServiceResponse<User>;
 
   if (!response.isSuccessful) {
     apiErrors.errors = response.error!.errors;

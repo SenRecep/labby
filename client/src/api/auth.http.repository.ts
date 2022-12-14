@@ -1,5 +1,4 @@
 import axios from "@/helpers/labby.axios";
-import { User } from "@/types/User.interface";
 import { HttpRepositoryBase } from "./HttpRepositoryBase";
 
 interface SignInModel {
