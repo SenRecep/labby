@@ -17,13 +17,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, roles: [Roles.admin] },
     component: () => import("@/views/List.view.vue"),
   },
-  ...authRoutes,
-  {
-    name: "notfound",
-    path: "/:catchAll(.*)",
-    component: () => import("@/views/NotFound.view.vue"),
-  },
 ];
+routes.push(...authRoutes);
+routes.push({
+  name: "notfound",
+  path: "/:catchAll(.*)",
+  component: () => import("@/views/NotFound.view.vue"),
+});
 
 const router = createRouter({
   history: createWebHistory(),

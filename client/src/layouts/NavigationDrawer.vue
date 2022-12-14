@@ -1,17 +1,26 @@
 <script lang="ts" setup>
 import ToggleTheme from "@/components/ToggleTheme.vue";
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { useLayoutStore } from "../stores/layout.store";
+import { useAuthStore } from "../stores/auth.store";
 const layoutStore = useLayoutStore();
+const authStore = useAuthStore();
 
-const items = reactive([
-  { title: "Home", icon: "mdi-home-variant-outline", path: "/" },
-  {
-    title: "List",
-    icon: "mdi-calculator-variant-outline",
-    path: "/list",
-  },
-]);
+const items = computed(() =>
+  [
+    {
+      title: "Home",
+      icon: "mdi-home-variant-outline",
+      path: "/",
+    },
+    {
+      title: "List",
+      icon: "mdi-calculator-variant-outline",
+      path: "/list",
+      isShow: authStore.isAuthenticated,
+    },
+  ].filter((x) => x.isShow == undefined || x.isShow)
+);
 </script>
 
 <template>
