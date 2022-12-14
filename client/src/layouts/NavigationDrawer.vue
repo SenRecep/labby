@@ -3,8 +3,19 @@ import ToggleTheme from "@/components/ToggleTheme.vue";
 import { reactive, computed } from "vue";
 import { useLayoutStore } from "../stores/layout.store";
 import { useAuthStore } from "../stores/auth.store";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const layoutStore = useLayoutStore();
 const authStore = useAuthStore();
+const routes = router.getRoutes();
+
+const isShow = (path: string) => {
+  const route = routes.find((x) => x.path === path);
+  if (!route || !route.meta || !route.meta.requiresAuth) return true;
+  if (!authStore.isAuthenticated) return false;
+  if (!route.meta.roles) return true;
+  return route.meta.roles.some((x) => x == authStore.user?.role);
+};
 
 const items = computed(() =>
   [
@@ -12,12 +23,13 @@ const items = computed(() =>
       title: "Home",
       icon: "mdi-home-variant-outline",
       path: "/",
+      isShow: isShow("/"),
     },
     {
       title: "List",
       icon: "mdi-calculator-variant-outline",
       path: "/list",
-      isShow: authStore.isAuthenticated,
+      isShow: isShow("/list"),
     },
   ].filter((x) => x.isShow == undefined || x.isShow)
 );
