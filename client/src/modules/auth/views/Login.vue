@@ -36,7 +36,7 @@ const formSubmit = async () => {
   )) as ServiceResponse<SignInResponse>;
 
   if (!response.isSuccessful) {
-    apiErrors.errors = response.error!.errors;
+    if (response.error) apiErrors.errors = response.error!.errors;
     return;
   }
 

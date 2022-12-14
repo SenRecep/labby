@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 export class HttpRepositoryBase {
   async send(
     request: Promise<AxiosResponse<any, any>>,
-    callback: ((data: any) => void | any) | undefined = undefined
+    callback: ((data: any) => void) | undefined = undefined
   ) {
     return request
       .then((response: { data: any }) => response.data)
@@ -11,6 +11,9 @@ export class HttpRepositoryBase {
         if (callback) callback(data);
         return data;
       })
-      .catch((error) => error);
+      .catch((error) => {
+        if (callback) callback(error);
+        return error;
+      });
   }
 }

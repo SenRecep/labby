@@ -5,12 +5,10 @@ import { required, email, minLength } from "@vuelidate/validators";
 import authHttpRepository from "../../../api/auth.http.repository";
 import { useLoadingStore } from "../../../stores/loading.store";
 import { ServiceResponse } from "../../../types/ServiceResponse.interface";
-import { SignInResponse } from "../../../types/SignInResponse.interface";
 import { useAuthStore } from "../../../stores/auth.store";
 import { useRouter } from "vue-router";
 import { User } from "@/types/User.interface";
 const loadingStore = useLoadingStore();
-const authStore = useAuthStore();
 const router = useRouter();
 const formState = reactive({
   email: "",
@@ -43,7 +41,7 @@ const formSubmit = async () => {
   )) as ServiceResponse<User>;
 
   if (!response.isSuccessful) {
-    apiErrors.errors = response.error!.errors;
+    if (response.error) apiErrors.errors = response.error!.errors;
     return;
   }
 
