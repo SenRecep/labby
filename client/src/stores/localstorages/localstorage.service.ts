@@ -1,13 +1,8 @@
+import { encrypt, decrypt } from "@/helpers/crypto";
 export class LocalStorageService {
-  #isObject(variable: any) {
-    return (
-      typeof variable === "object" &&
-      !Array.isArray(variable) &&
-      variable !== null
-    );
-  }
-  get(key: string) {
-    const data = localStorage.getItem(key);
+  get(key: string, isDecrypt = true) {
+    let data = localStorage.getItem(key);
+    if (isDecrypt) data = decrypt(data);
     if (!data) return data;
     try {
       return JSON.parse(data);
@@ -15,8 +10,9 @@ export class LocalStorageService {
       return data;
     }
   }
-  set(key: string, value: any) {
+  set(key: string, value: any, isEncrypt = true) {
     value = JSON.stringify(value);
+    if (isEncrypt) value = encrypt(value);
     localStorage.setItem(key, value);
   }
   remove(key: string) {
