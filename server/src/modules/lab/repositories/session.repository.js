@@ -2,6 +2,8 @@ import { ApiError } from "../../../common/apiError.js";
 import Session from "../models/Session.schema.js";
 import SessionAssistant from "../models/SessionAssistant.schema.js";
 
+import HttpStatusCodes from "http-status-codes";
+
 class sessionRepository {
   async createSession(userId) {
     const session = await Session.create({});
@@ -20,43 +22,81 @@ class sessionRepository {
     );
     return await Session.findById(session._id).populate("assistants");
   }
-  getAllSessions() {
-    return Session.find({}).populate("assistant");
-  }
-  async getAll(date) {
-    return Session.find({}).populate("assistants userSessions");
+  async getAll() {
+    return Session.find({})
+      .populate({
+        path: "assistants",
+        populate: {
+          path: "user",
+        },
+      })
+      .populate({
+        path: "userSessions",
+        populate: {
+          path: "user",
+        },
+      });
   }
 
-  getDate() {
-    const found = this.ifExistDate(new Date());
-    if (!found)
+  async getDate() {
+    const found = await this.getByDate(new Date());
+    if (!found) {
       throw new ApiError(
         "Session not found",
         HttpStatusCodes.BAD_REQUEST,
         "sessionRepository->getBy"
       );
-
+    }
     return found;
   }
-
-  ifExistDate(date) {
-    return this.getByDate(date);
-  }
   getByDate(date) {
-    const querry = {
-      day: date.getDate(),
+    const query = {
+      day: date.getDate() + 1,
       year: date.getFullYear(),
-      month: date.getMonth() + 1,
+      month: date.getMonth(),
     };
     return Session.findOne({
-      date: {
-        $gte: new Date(querry.year, querry.month, querry.day),
-        $lt: new Date(querry.year, querry.month, querry.day + 1),
+      openTime: {
+        $gte: new Date(query.year, query.month, query.day),
+        $lt: new Date(query.year, query.month, query.day + 1),
       },
-    }).populate("assistants userSessions");
+    })
+      .populate({
+        path: "assistants",
+        populate: {
+          path: "user",
+        },
+      })
+      .populate({
+        path: "userSessions",
+        populate: {
+          path: "user",
+        },
+      });
+  }
+  async addCloseTime() {
+    const found = await this.getDate();
+    const updateTime = await Session.findByIdAndUpdate(
+      found._id,
+      {
+        closeTime: Date.now(),
+      },
+      { new: true, useFindAndModify: false }
+    );
+    return updateTime;
   }
   getById(id) {
     return Session.findById(id);
+  }
+  async getOpenOrClose(){
+    const lab = await this.getDate();
+    if(lab.exitTime == null)
+    {
+      return "break";
+    }
+    else {
+      return "close";
+    }
   }
 }
 
