@@ -51,14 +51,14 @@ class sessionRepository {
   }
   getByDate(date) {
     const query = {
-      day: date.getDate() + 1,
+      day: date.getDate(),
+      month: date.getMonth() + 1,
       year: date.getFullYear(),
-      month: date.getMonth(),
     };
     return Session.findOne({
       openTime: {
-        $gte: new Date(query.year, query.month, query.day),
-        $lt: new Date(query.year, query.month, query.day + 1),
+        $gte: new Date(`${query.year}-${query.month}-${query.day}`),
+        $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
       },
     })
       .populate({
@@ -88,13 +88,11 @@ class sessionRepository {
   getById(id) {
     return Session.findById(id);
   }
-  async getOpenOrClose(){
+  async getOpenOrClose() {
     const lab = await this.getDate();
-    if(lab.exitTime == null)
-    {
+    if (lab.exitTime == null) {
       return "break";
-    }
-    else {
+    } else {
       return "close";
     }
   }
