@@ -10,3 +10,5 @@ store.$reset();
 const router = useRouter();
 router.replace({ name: "login" });
 </script>
+
+<template></template>
