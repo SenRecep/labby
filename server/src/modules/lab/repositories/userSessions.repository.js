@@ -30,11 +30,11 @@ class userSessionRepository {
   }
   getByDate(date) {
     const query = {
-      day: date.getDate() + 1,
+      day: date.getDate() ,
       year: date.getFullYear(),
-      month: date.getMonth(),
+      month: date.getMonth()+ 1,
     };
-    return Session.findOne({
+   return Session.findOne({
       openTime: {
         $gte: new Date(`${query.year}-${query.month}-${query.day}`),
         $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
