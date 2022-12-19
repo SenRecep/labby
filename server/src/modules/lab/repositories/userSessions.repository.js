@@ -29,15 +29,15 @@ class userSessionRepository {
     return userSession;
   }
   getByDate(date) {
-    const querry = {
+    const query = {
       day: date.getDate() + 1,
       year: date.getFullYear(),
       month: date.getMonth(),
     };
     return Session.findOne({
       openTime: {
-        $gte: new Date(querry.year, querry.month, querry.day),
-        $lt: new Date(querry.year, querry.month, querry.day + 1),
+        $gte: new Date(`${query.year}-${query.month}-${query.day}`),
+        $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
       },
     });
   }
@@ -49,6 +49,7 @@ class userSessionRepository {
         HttpStatusCodes.BAD_REQUEST,
         "userSessionRepository->getBy"
       );
+      
     return found;
   }
   async addExitTime(userId) {
@@ -77,14 +78,22 @@ class userSessionRepository {
   }
   async getAllUsersInLab() {
     const found = await this.getDate(new Date());
-    const getUser = await UserSession.find({
+    if (!found)
+      throw new Error(
+        "Close",
+        HttpStatusCodes.BAD_REQUEST,
+        "userSessionRepository->getAllUsersInLab"
+      );
+      const getUser = await UserSession.find({
       session: found._id,
       exitTime: null,
     });
-    return getUser;
+    return getUser;  
   }
   async numberOfUsersInLab(){
     const number = (await this.getAllUsersInLab()).length;
+    const rate = (number*100)/50;
+    console.log(`%${rate}`);
     return number;
   }
 }

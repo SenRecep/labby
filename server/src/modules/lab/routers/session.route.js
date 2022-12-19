@@ -5,9 +5,9 @@ import { getAllSessions, getByIdRequest, getOpenOrClose, getSessionsByDate, post
 import { postUserSessionRequest , getAllUserSessions,postExitTimeRequest, getAllUsersInLab, numberOfUsersInLab, getAllUserSessionsByDate} from "../controllers/userSession.controller.js";
 const router = express.Router();
 
-router
-  .route("/assistant")
-  .get(requiredAuthMiddleware,getAllRequest);
+// router
+//   .route("/assistant")
+//   .get(requiredAuthMiddleware,getAllRequest);
 
 
   router
