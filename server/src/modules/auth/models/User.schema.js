@@ -30,6 +30,9 @@ export const UserSchema = new Schema({
     enum: [RoleInfo.admin, RoleInfo.assistant, RoleInfo.student],
     default: RoleInfo.student,
   },
+  registrationToken:{
+    type:String
+  }
 });
 
 const User = mongoose.model("users", UserSchema);

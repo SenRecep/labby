@@ -69,7 +69,7 @@ class userSessionRepository {
   }
   async getAllUserSessionsByDate() {
     const found = await this.getDate(new Date());
-    const getUser = await UserSession.find({ session: found._id });
+    const getUser = await UserSession.find({ session: found._id }).populate("user");
     return getUser;
   }
   async getAllUserSessions() {
@@ -87,7 +87,7 @@ class userSessionRepository {
       const getUser = await UserSession.find({
       session: found._id,
       exitTime: null,
-    });
+    }).populate("user");
     return getUser;  
   }
   async numberOfUsersInLab(){
