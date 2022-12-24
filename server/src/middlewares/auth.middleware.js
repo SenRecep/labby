@@ -7,10 +7,10 @@ export const authMiddleware = (req, res, next) => {
   const attributes = authorization.split(" ");
   if (attributes.length !== 2)
     return res
-      .status(HttpStatusCodes.BAD_REQUEST)
+      .status(HttpStatusCodes.UNAUTHORIZED)
       .json(
         ServiceResponse.fail(
-          HttpStatusCodes.BAD_GATEWAY,
+          HttpStatusCodes.UNAUTHORIZED,
           false,
           "authMiddleware",
           ["Invalid authorization"]
@@ -19,10 +19,10 @@ export const authMiddleware = (req, res, next) => {
 
   if (attributes[0] !== process.env.AUTH_SCHEMA)
     return res
-      .status(HttpStatusCodes.BAD_REQUEST)
+      .status(HttpStatusCodes.UNAUTHORIZED)
       .json(
         ServiceResponse.fail(
-          HttpStatusCodes.BAD_GATEWAY,
+          HttpStatusCodes.UNAUTHORIZED,
           false,
           "authMiddleware",
           ["Invalid auth schema"]
@@ -32,10 +32,10 @@ export const authMiddleware = (req, res, next) => {
   jwtService.verify(token, (err, decoded) => {
     if (err)
       return res
-        .status(HttpStatusCodes.BAD_REQUEST)
+        .status(HttpStatusCodes.UNAUTHORIZED)
         .json(
           ServiceResponse.fail(
-            HttpStatusCodes.BAD_REQUEST,
+            HttpStatusCodes.UNAUTHORIZED,
             false,
             "authMiddleware",
             [err.message]
