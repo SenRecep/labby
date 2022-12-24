@@ -27,6 +27,10 @@ class UserService {
     const updated = await userRepository.updatePassword(user);
     return new UserViewDto(updated);
   }
+  async updateToken(user) {
+    const updated = await userRepository.updateToken(user);
+    return new UserViewDto(updated);
+  }
 }
 
 const instance = new UserService();
