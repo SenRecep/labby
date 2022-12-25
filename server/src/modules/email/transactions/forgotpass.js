@@ -18,3 +18,10 @@ export const changePassword=async(email,code,password)=>{
     const user=await userRepository.getByEmail(email);
     userRepository.updatePassword(user.id,password);
 }
+
+export default {
+    sendVerificationCode,
+    verifyCode,
+    changePassword
+  };
+  
