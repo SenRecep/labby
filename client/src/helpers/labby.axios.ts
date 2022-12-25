@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/auth.store";
 import router from "@/routers/index";
 const labbyAxios = axios.create({
   withCredentials: false,
-  timeout: 10000,
+  timeout: 20000,
   baseURL: import.meta.env.VITE_LABBY_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",

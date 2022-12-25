@@ -4,13 +4,11 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, sameAs } from "@vuelidate/validators";
 import { useLoadingStore } from "../../../stores/loading.store";
 import { ServiceResponse } from "../../../types/ServiceResponse.interface";
-import { useAuthStore } from "../../../stores/auth.store";
 import { useRouter } from "vue-router";
 import notify from "@/helpers/notify";
 import forgotPasswordHttpRepository from "../../../api/forgotpassword.http.repository";
 import { NoContentResponse } from "../../../types/NoContentResponse.interface";
 const loadingStore = useLoadingStore();
-const authStore = useAuthStore();
 const router = useRouter();
 const step = ref(0);
 
