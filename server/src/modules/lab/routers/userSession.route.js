@@ -17,10 +17,6 @@ const router = express.Router();
   router
   .route("/inlab")
   .get(requiredAuthMiddleware,getAllUsersInLab);
-
-  router
-  .route("/number")
-  .get(requiredAuthMiddleware,numberOfUsersInLab);
   
   export default router;
   

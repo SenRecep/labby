@@ -28,6 +28,10 @@ class userSessionService {
     const session = await userSessionRepository.numberOfUsersInLab(id);
     return session;
   }
+  async intensity(id) {
+    const session = await userSessionRepository.intensity(id);
+    return session;
+  }
 }
 
 const instance = new userSessionService();

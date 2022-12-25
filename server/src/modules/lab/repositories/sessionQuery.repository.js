@@ -3,7 +3,6 @@ import Session from "../models/Session.schema.js";
 import UserSession from "../models/UserSessions.schema.js";
 import HttpStatusCodes from "http-status-codes";
 
-
 class sessionQueryRepository {
     getByDate(date) {
         const query = {

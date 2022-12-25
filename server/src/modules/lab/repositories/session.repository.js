@@ -74,14 +74,6 @@ class sessionRepository {
   getById(id) {
     return Session.findById(id);
   }
-  async getOpenOrClose() {
-    const lab = await sessionQueryRepository.getThisDate();
-    if (lab.exitTime == null) {
-      return "break";
-    } else {
-      return "close";
-    }
-  }
 }
 
 const instance = new sessionRepository();

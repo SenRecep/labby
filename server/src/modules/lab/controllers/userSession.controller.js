@@ -69,11 +69,23 @@ export const numberOfUsersInLab = async (req, res, next) => {
   }
 };
 
+export const getIntensity = async (req, res, next) => {
+  try {
+    const data = await userSessionService.intensity();
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   postUserSessionRequest,
   getAllUserSessions,
   postExitTimeRequest,
   getAllUsersInLab,
   numberOfUsersInLab,
-  getAllUserSessionsByDate
+  getAllUserSessionsByDate,
+  getIntensity
 };

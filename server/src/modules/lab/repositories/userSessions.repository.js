@@ -61,17 +61,11 @@ class userSessionRepository {
         HttpStatusCodes.BAD_REQUEST,
         "userSessionRepository->getAllUsersInLab"
       );
-      const getUser = await UserSession.find({
+    const getUser = await UserSession.find({
       session: found._id,
       exitTime: null,
     }).populate("user");
-    return getUser;  
-  }
-  async numberOfUsersInLab(){
-    const number = (await this.getAllUsersInLab()).length;
-    const rate = (number*100)/50;
-    console.log(`%${rate}`);
-    return number;
+    return getUser;
   }
 }
 

@@ -1,6 +1,7 @@
 import sessionService from "../services/session.service.js";
 import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
+import labStatus from "../repositories/labStatus.repository.js";
 
 export const getSessionsByDate = async (req, res,next) => {
   try {
@@ -49,9 +50,10 @@ export const getByIdRequest = async (req, res) => {
     .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
 };
 
-export const getOpenOrClose = async (req, res, next) => {
+export const getLabStatus = async (req, res, next) => {
+  
   try {
-    const data = await sessionService.getOpenOrClose();
+    const data = await labStatus.getLabStatus();
     return res
       .status(HttpStatusCodes.CREATED)
       .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
@@ -66,5 +68,5 @@ export default {
   getByIdRequest,
   postCloseTimeRequest,
   getSessionsByDate,
-  getOpenOrClose
+  getLabStatus
 };
