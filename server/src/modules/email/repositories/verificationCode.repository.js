@@ -9,6 +9,8 @@ import moment from "moment";
 class VerificationCodeRepository {
     async CreateCode(email){
         const user=await userRepository.getByEmail(email);
+        if(!user)
+        throw new ApiError("User not found",HttpStatusCodes.NOT_FOUND,'VerificationCodeRepository')
         const now=new Date();
         const expired=moment(now).add(30, 'm').toDate();
         const verificationCode= await VerificationCode.create({code: GenerateCode(), user:user, expiredTime:expired,isUsed:false});
@@ -26,6 +28,10 @@ class VerificationCodeRepository {
         if(found.expiredTime<new Date())
              throw new ApiError("Expired Code",HttpStatusCodes.BAD_REQUEST,'VerificationCodeRepository')
         return true;
+    }
+
+     DisableCode(code,userId){
+        return VerificationCode.findOneAndUpdate({code:code,user:userId},{isUsed:true});
     }
   
 }

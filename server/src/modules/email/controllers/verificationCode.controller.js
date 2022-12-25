@@ -1,4 +1,4 @@
-import {sendVerificationCode, verifyCode} from "../transactions/forgotpass.js";
+import {sendVerificationCode, verifyCode, changePassword} from "../transactions/forgotpass.js";
 import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 
@@ -15,9 +15,9 @@ export const sendVerificationCodeRequest = async (req, res, next) => {
   };
 
   export const verificationCodeRequest = async (req, res, next) => {
-    const code = req.body.code;
+    const {email,code} = req.body;
     try {
-      const response = await verifyCode(code);
+      const response = await verifyCode(email,code);
       return res
         .status(HttpStatusCodes.CREATED)
         .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
@@ -27,9 +27,9 @@ export const sendVerificationCodeRequest = async (req, res, next) => {
   };
 
   export const changePasswordRequest= async (req, res, next) => {
-    const password = req.body.password;
+    const {email,code,password} = req.body;
     try {
-      const response = await verifyCode(password);
+      const response = await changePassword(email,code,password);
       return res
         .status(HttpStatusCodes.CREATED)
         .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
