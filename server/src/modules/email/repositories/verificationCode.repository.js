@@ -2,7 +2,8 @@ import { ApiError } from "../../../common/apiError.js";
 import HttpStatusCodes from "http-status-codes";
 import VerificationCode from "../models/VerificationCode.schema.js";
 import userRepository from "../../auth/repositories/user.repository.js";
-import {codeGenerator} from "../transactions/codeGenerator.js";
+import {GenerateCode} from "../transactions/codeGenerator.js";
+import moment from "moment";
 
 
 class VerificationCodeRepository {
@@ -10,7 +11,7 @@ class VerificationCodeRepository {
         const user=await userRepository.getByEmail(email);
         const now=new Date();
         const expired=moment(now).add(30, 'm').toDate();
-        const verificationCode= await VerificationCode.create({code: codeGenerator(), user:user, expiredTime:expired,isUsed:false});
+        const verificationCode= await VerificationCode.create({code: GenerateCode(), user:user, expiredTime:expired,isUsed:false});
         return verificationCode;
     }
 
