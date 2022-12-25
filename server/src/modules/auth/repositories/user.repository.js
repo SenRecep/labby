@@ -58,6 +58,13 @@ class UserRepository {
     password = await this.hashPassword(password);
     return User.findByIdAndUpdate(id, { password }, { new: true });
   }
+  updateToken({ userId, token }) {
+    return User.findByIdAndUpdate(
+      userId,
+      { registrationToken: token },
+      { new: true }
+    );
+  }
 }
 
 const instance = new UserRepository();
