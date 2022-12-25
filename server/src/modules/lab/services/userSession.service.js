@@ -13,7 +13,8 @@ class userSessionService {
   }
   async getAllUsersInLab(id) {
     const session = await userSessionRepository.getAllUsersInLab(id);
-    return new UserSessionViewDto(session);
+    const model = session.map((se) => new UserSessionViewDto(se));
+    return model;
   }
   async createUserSession(userId) {
     const created = await userSessionRepository.createUserSession(userId);
