@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/modules/auth/views/Logout.vue"),
   },
   {
+    name: "forgotpassword",
+    path: "/auth/forgetpassword",
+    component: () => import("@/modules/auth/views/ForgotPassword.vue"),
+  },
+  {
     name: "forbidden",
     path: "/auth/forbidden",
     component: () => import("@/modules/auth/views/Forbidden.vue"),

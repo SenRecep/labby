@@ -80,7 +80,7 @@ const formSubmit = async () => {
             ></v-text-field>
             <v-text-field
               id="password"
-              prepend-icon="mdi-lock"
+              prepend-icon="mdi-form-textbox-password"
               name="password"
               label="Password"
               type="password"
@@ -91,6 +91,13 @@ const formSubmit = async () => {
               "
             ></v-text-field>
             <v-card-actions>
+              <v-btn
+                :to="{ name: 'forgotpassword' }"
+                prepend-icon="mdi-lock"
+                type="button"
+                variant="outlined"
+                >Forgot Password</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn prepend-icon="mdi-login" type="submit" variant="outlined"
                 >Login</v-btn

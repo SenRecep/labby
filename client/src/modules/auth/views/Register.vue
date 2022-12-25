@@ -126,7 +126,7 @@ const formSubmit = async () => {
             ></v-text-field>
             <v-text-field
               id="password"
-              prepend-icon="mdi-lock"
+              prepend-icon="mdi-form-textbox-password"
               name="password"
               label="Password"
               type="password"
