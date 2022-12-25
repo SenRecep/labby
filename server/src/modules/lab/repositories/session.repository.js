@@ -1,7 +1,7 @@
 import { ApiError } from "../../../common/apiError.js";
 import Session from "../models/Session.schema.js";
 import SessionAssistant from "../models/SessionAssistant.schema.js";
-
+import sessionQueryRepository from "./sessionQuery.repository.js";
 import HttpStatusCodes from "http-status-codes";
 
 class sessionRepository {
@@ -38,29 +38,8 @@ class sessionRepository {
       });
   }
 
-  async getDate() {
-    const found = await this.getByDate(new Date());
-    if (!found) {
-      throw new ApiError(
-        "Session not found",
-        HttpStatusCodes.BAD_REQUEST,
-        "sessionRepository->getBy"
-      );
-    }
-    return found;
-  }
-  getByDate(date) {
-    const query = {
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
-    };
-    return Session.findOne({
-      openTime: {
-        $gte: new Date(`${query.year}-${query.month}-${query.day}`),
-        $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
-      },
-    })
+ async getByDate() {
+   const found = await sessionQueryRepository.getByDate(new Date())
       .populate({
         path: "assistants",
         populate: {
@@ -73,9 +52,16 @@ class sessionRepository {
           path: "user",
         },
       });
+      if (!found)
+      throw new ApiError(
+        "Session not found",
+        HttpStatusCodes.BAD_REQUEST,
+        "sessionRepository->getByDate"
+      );
+      return found
   }
   async addCloseTime() {
-    const found = await this.getDate();
+    const found = await sessionQueryRepository.getThisDate();
     const updateTime = await Session.findByIdAndUpdate(
       found._id,
       {
@@ -89,7 +75,7 @@ class sessionRepository {
     return Session.findById(id);
   }
   async getOpenOrClose() {
-    const lab = await this.getDate();
+    const lab = await sessionQueryRepository.getThisDate();
     if (lab.exitTime == null) {
       return "break";
     } else {

@@ -1,25 +1,27 @@
 import userSessionRepository from "../repositories/userSessions.repository.js";
+import {UserSessionViewDto} from '../dtos/userSessionView.dto.js';
 
 class userSessionService {
-  async getAllUserSessions(id) {
-    const session = await userSessionRepository.getAllUserSessions(id);
-    return session;
+  async getAllUserSessions() {
+    const session = await userSessionRepository.getAllUserSessions();
+    const model = session.map((se) => new UserSessionViewDto(se));
+    return model;
   }
   async getAllUserSessionsByDate(id) {
     const session = await userSessionRepository.getAllUserSessionsByDate(id);
-    return session;
+    return new UserSessionViewDto(session);
   }
   async getAllUsersInLab(id) {
     const session = await userSessionRepository.getAllUsersInLab(id);
-    return session;
+    return new UserSessionViewDto(session);
   }
   async createUserSession(userId) {
     const created = await userSessionRepository.createUserSession(userId);
-    return created;
+    return new UserSessionViewDto(created);
   }
   async addExitTime(date) {
     const created = await userSessionRepository.addExitTime(date);
-    return created;
+    return new UserSessionViewDto(created);
   }
   async numberOfUsersInLab(id) {
     const session = await userSessionRepository.numberOfUsersInLab(id);

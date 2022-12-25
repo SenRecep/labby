@@ -2,10 +2,11 @@ import { ApiError } from "../../../common/apiError.js";
 import Session from "../models/Session.schema.js";
 import UserSession from "../models/UserSessions.schema.js";
 import HttpStatusCodes from "http-status-codes";
+import sessionQueryRepository from "./sessionQuery.repository.js";
 
 class userSessionRepository {
   async createUserSession(userId) {
-    const findSessionDate = await this.getDate(new Date());
+    const findSessionDate = await sessionQueryRepository.getThisDate();
     if (!findSessionDate || findSessionDate.closeTime != null)
       throw new ApiError(
         "Session not found",
@@ -28,32 +29,8 @@ class userSessionRepository {
     );
     return userSession;
   }
-  getByDate(date) {
-    const query = {
-      day: date.getDate() ,
-      year: date.getFullYear(),
-      month: date.getMonth()+ 1,
-    };
-   return Session.findOne({
-      openTime: {
-        $gte: new Date(`${query.year}-${query.month}-${query.day}`),
-        $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
-      },
-    });
-  }
-  getDate() {
-    const found = this.getByDate(new Date());
-    if (!found)
-      throw new ApiError(
-        "Session not found",
-        HttpStatusCodes.BAD_REQUEST,
-        "userSessionRepository->getBy"
-      );
-      
-    return found;
-  }
   async addExitTime(userId) {
-    const found = await this.getDate();
+    const found = await sessionQueryRepository.getThisDate();
     const updateTime = await UserSession.findOneAndUpdate(
       {
         session: found._id,
@@ -68,7 +45,7 @@ class userSessionRepository {
     return updateTime;
   }
   async getAllUserSessionsByDate() {
-    const found = await this.getDate(new Date());
+    const found = await sessionQueryRepository.getThisDate();
     const getUser = await UserSession.find({ session: found._id });
     return getUser;
   }
@@ -77,7 +54,7 @@ class userSessionRepository {
     return getUser;
   }
   async getAllUsersInLab() {
-    const found = await this.getDate(new Date());
+    const found = await sessionQueryRepository.getThisDate();
     if (!found)
       throw new Error(
         "Close",
