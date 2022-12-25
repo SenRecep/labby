@@ -64,7 +64,7 @@ class userSessionRepository {
       const getUser = await UserSession.find({
       session: found._id,
       exitTime: null,
-    });
+    }).populate("user");
     return getUser;  
   }
   async numberOfUsersInLab(){

@@ -6,6 +6,7 @@ class UserViewDto {
     this.surname = user.surname;
     this.email = user.email;
     this.studentNumber = user.studentNumber;
+    this.registrationToken=user.registrationToken;
   }
 }
 

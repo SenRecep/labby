@@ -13,7 +13,8 @@ router
   .route("/")
   .get(controller.getAllRequest)
   .post(userValidator, validationResponseMiddleware, controller.postRequest)
-  .put(controller.updatePasswordByIdRequest);
+  .put(controller.updatePasswordByIdRequest)
+  .patch(controller.updateNotifyTokenByIdRequest);
 
 router
   .route("/profile")
