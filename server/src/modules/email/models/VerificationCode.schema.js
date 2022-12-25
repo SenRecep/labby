@@ -17,6 +17,6 @@ export const VerificationCodeSchema = new Schema({
   }
 });
 
-const VerificationCode = mongoose.model("verificationCode", UserSchema);
+const VerificationCode = mongoose.model("verificationCode", VerificationCodeSchema);
 
 export default VerificationCode;

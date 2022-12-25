@@ -1,12 +1,7 @@
 import express from "express";
 import { requiredAuthMiddleware } from "../../../middlewares/auth.middleware.js";
-import { getAllRequest } from "../controllers/sessionAssistant.controller.js";
 import { getAllSessions, getByIdRequest, getOpenOrClose, getSessionsByDate, postCloseTimeRequest, postSessionRequest } from "../controllers/session.controller.js";
 const router = express.Router();
-
-// router
-//   .route("/assistant")
-//   .get(requiredAuthMiddleware,getAllRequest);
 
 
   router
