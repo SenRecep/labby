@@ -7,6 +7,17 @@ import UserSession from "../models/UserSessions.schema.js";
 
 class sessionRepository {
   async createSession(userId) {
+    const foundSession = await Session.find({
+      closeTime: null,
+    });
+    console.log(foundSession);
+    if (foundSession.length>0) {
+      throw new ApiError(
+        "Session is already exist",
+        HttpStatusCodes.BAD_REQUEST,
+        "sessionRepository->getByDate"
+      );
+    }
     const session = await Session.create({});
     const sessionAssistant = await SessionAssistant.create({
       user: userId,
@@ -39,8 +50,9 @@ class sessionRepository {
       });
   }
 
- async getByDate() {
-   const found = await sessionQueryRepository.getByDate(new Date())
+  async getByDate() {
+    const found = await sessionQueryRepository
+      .getByDate(new Date())
       .populate({
         path: "assistants",
         populate: {
@@ -53,13 +65,13 @@ class sessionRepository {
           path: "user",
         },
       });
-      if (!found)
+    if (!found)
       throw new ApiError(
         "Session not found",
         HttpStatusCodes.BAD_REQUEST,
         "sessionRepository->getByDate"
       );
-      return found
+    return found;
   }
   async addCloseTime() {
     const found = await sessionQueryRepository.getThisDate();
@@ -71,7 +83,7 @@ class sessionRepository {
       { new: true, useFindAndModify: false }
     );
     const update = await UserSession.updateMany(
-      {session:found._id},
+      { session: found._id },
       {
         exitTime: Date.now(),
       },

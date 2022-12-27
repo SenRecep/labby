@@ -9,6 +9,7 @@ export const sessionSchema = new Schema({
   },
   closeTime: {
     type: Date,
+    default:null,
     required: false,
   },
   assistants: [
