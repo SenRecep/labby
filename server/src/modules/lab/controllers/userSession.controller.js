@@ -5,7 +5,7 @@ import HttpStatusCodes from "http-status-codes";
 export const postUserSessionRequest = async (req, res, next) => {
   const user = req.user.id;
   try {
-    const response = await userSessionService.createUserSession(users);
+    const response = await userSessionService.createUserSession(user);
     return res
       .status(HttpStatusCodes.CREATED)
       .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
@@ -47,6 +47,17 @@ export const getAllUsersInLab = async (req, res, next) => {
   }
 };
 
+export const getUserSessionsById=async(req,res,next)=>{
+  try {
+    const data = await userSessionService.getUserSessionsById(req.user.id);
+    return res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export const postExitTimeRequest = async (req, res, next) => {
   try {
     const response = await userSessionService.addExitTime(req.user.id);
@@ -80,6 +91,17 @@ export const getIntensity = async (req, res, next) => {
   }
 };
 
+export const isUserInLab = async (req, res, next) => {
+  try {
+    const data = await userSessionService.isUserInLab(req.user.id);
+    return res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   postUserSessionRequest,
   getAllUserSessions,
@@ -87,5 +109,7 @@ export default {
   getAllUsersInLab,
   numberOfUsersInLab,
   getAllUserSessionsByDate,
-  getIntensity
+  getIntensity,
+  isUserInLab,
+  getUserSessionsById
 };

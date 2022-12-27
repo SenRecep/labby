@@ -62,11 +62,23 @@ export const getLabStatus = async (req, res, next) => {
   }
 };
 
+export const getLabHistory=async(req,res,next)=>{
+  try {
+    const data = await sessionService.getLabHistory();
+    return res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export default {
   getAllSessions,
   postSessionRequest,
   getByIdRequest,
   postCloseTimeRequest,
   getSessionsByDate,
-  getLabStatus
+  getLabStatus,
+  getLabHistory
 };

@@ -32,6 +32,15 @@ class userSessionService {
     const session = await userSessionRepository.intensity(id);
     return session;
   }
+  async isUserInLab(userId)
+  {
+    const result = await userSessionRepository.isUserInLab(userId);
+    return result;
+  }
+  async getUserSessionsById(userId){
+    const sessions = await userSessionRepository.getAllUserSessionsByDate(userId);
+    return sessions;
+  }
 }
 
 const instance = new userSessionService();

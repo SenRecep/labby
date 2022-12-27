@@ -94,6 +94,24 @@ class sessionRepository {
   getById(id) {
     return Session.findById(id);
   }
+  async getLabHistory(){
+    const sessionList= await Session.find({}).populate({
+      path: "assistants",
+      populate: {
+        path: "user",
+      },
+    })
+    .populate({
+      path: "userSessions",
+      populate: {
+        path: "user",
+      },
+    });
+
+    const sessionDays=sessionList.map(e=>({closeTime:e.closeTime, openTime:e.openTime, assistants:e.assistants, population:e.userSessions.length}));
+    
+    return sessionDays;
+  }
 }
 
 const instance = new sessionRepository();
