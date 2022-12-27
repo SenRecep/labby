@@ -22,9 +22,3 @@ const col = computed(() => (display.mobile.value ? 12 : 6));
     </v-col>
   </v-row>
 </template>
-
-<style>
-.v-card__loader {
-  height: 2px;
-}
-</style>
