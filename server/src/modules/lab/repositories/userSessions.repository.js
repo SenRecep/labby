@@ -53,6 +53,12 @@ class userSessionRepository {
     const getUser = await UserSession.find({});
     return getUser;
   }
+  async getUserSessionsById(userId){
+    const sessions= await UserSession.find({
+      user:userId
+    })
+    return sessions;
+  }
   async getAllUsersInLab() {
     const found = await sessionQueryRepository.getThisDate();
     if (!found)
@@ -66,6 +72,13 @@ class userSessionRepository {
       exitTime: null,
     }).populate("user");
     return getUser;
+  }
+  async isUserInLab(userId){
+    const foundSession = await UserSession.findOne({
+      exitTime: null,
+      user:userId
+    });
+    return foundSession!=null;
   }
 }
 

@@ -27,6 +27,10 @@ class sessionService {
     const resolve = await sessionRepository.getOpenOrClose();
     return resolve;
   }
+  async getLabHistory() {
+    const history = await sessionRepository.getLabHistory();
+    return history;
+  }
 }
 
 const instance = new sessionService();
