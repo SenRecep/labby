@@ -7,8 +7,8 @@ const router = express.Router();
   router
   .route("/")
   .get(requiredAuthMiddleware,getAllUserSessionsByDate)
-  .post(postUserSessionRequest)
-  .put(postExitTimeRequest);
+  .post(requiredAuthMiddleware,postUserSessionRequest)
+  .put(requiredAuthMiddleware,postExitTimeRequest);
 
   router
   .route("/all")
