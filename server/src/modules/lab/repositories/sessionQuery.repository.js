@@ -15,6 +15,7 @@ class sessionQueryRepository {
             $gte: new Date(`${query.year}-${query.month}-${query.day}`),
             $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
           },
+          closeTime:null
         });
       }
      async getThisDate() {

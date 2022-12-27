@@ -3,6 +3,7 @@ import Session from "../models/Session.schema.js";
 import SessionAssistant from "../models/SessionAssistant.schema.js";
 import sessionQueryRepository from "./sessionQuery.repository.js";
 import HttpStatusCodes from "http-status-codes";
+import UserSession from "../models/UserSessions.schema.js";
 
 class sessionRepository {
   async createSession(userId) {
@@ -66,6 +67,13 @@ class sessionRepository {
       found._id,
       {
         closeTime: Date.now(),
+      },
+      { new: true, useFindAndModify: false }
+    );
+    const update = await UserSession.updateMany(
+      {session:found._id},
+      {
+        exitTime: Date.now(),
       },
       { new: true, useFindAndModify: false }
     );
