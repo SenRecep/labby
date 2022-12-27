@@ -1,4 +1,8 @@
 import SessionAssistant from "../models/SessionAssistant.schema.js";
+import { ApiError } from "../../../common/apiError.js";
+import Session from "../models/Session.schema.js";
+import sessionQueryRepository from "./sessionQuery.repository.js";
+import HttpStatusCodes from "http-status-codes";
 
 class sessionAssistantRepository {
   getAll(userId) {
@@ -6,6 +10,30 @@ class sessionAssistantRepository {
   }
   getById(id) {
     return User.findById(id);
+  }
+  async postAssistant(userId) {
+    const found = await sessionQueryRepository.getThisDate();
+    const updateAssistant = await SessionAssistant.findOneAndUpdate(
+      { changeTime: null, session: found.id },
+      { changeTime: Date.now() },
+      { new: true }
+    );
+    const sessionAssistant = await SessionAssistant.create({
+      user: userId,
+      session: found.id,
+    });
+    const update = await Session.findByIdAndUpdate(
+      found._id,
+      {
+        $push: {
+          assistants: sessionAssistant._id,
+        },
+      },
+      { new: true, useFindAndModify: false }
+    );
+    return await SessionAssistant
+      .findById(sessionAssistant._id)
+      .populate("session");
   }
 }
 

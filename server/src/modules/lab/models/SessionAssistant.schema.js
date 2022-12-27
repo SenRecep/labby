@@ -12,8 +12,7 @@ export const sessionAssistantSchema = new Schema({
   },
   changeTime: {
     type: Date,
-    default: Date.now,
-    required: true,
+    default: null,
   },
 });
 

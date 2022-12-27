@@ -11,6 +11,7 @@ export class SessionViewDto{
         this.closeTime=session.closeTime;
         if(this.check(session.userSessions))
             this.users=session.userSessions.map(us=>(new UserSessionViewDto(us)));
+            console.log(session.assistants);
         if(this.check(session.assistants))
             this.assistants=session.assistants.map(a=>(new SessionAssistantViewDto(a)));
     }

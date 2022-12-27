@@ -15,7 +15,17 @@ export const getByIdRequest = async (req, res) => {
     .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
 };
 
+
+
+export const postAssistantRequest = async (req, res) => {
+  const data = await sessionAssistantService.postAssistant(req.body.assistants);
+  return res
+    .status(HttpStatusCodes.OK)
+    .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+};
+
 export default {
   getAllRequest,
   getByIdRequest,
+  postAssistantRequest
 };

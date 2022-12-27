@@ -11,6 +11,10 @@ class sessionAssistantService {
     const user = await sessionAssistantRepository.getById(id);
     return new SessionAssistantViewDto(session);
   }
+  async postAssistant(id) {
+    const user = await sessionAssistantRepository.postAssistant(id);
+    return new SessionAssistantViewDto(user);
+  }
 }
 
 const instance = new sessionAssistantService();
