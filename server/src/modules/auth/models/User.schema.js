@@ -16,6 +16,10 @@ export const UserSchema = new Schema({
     required: [true, "Email is required"],
     unique: true,
   },
+  phone:{
+    type:String,
+    required:[true, "Phone number is required"]
+  },
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -32,7 +36,7 @@ export const UserSchema = new Schema({
   },
   registrationToken: {
     type: Schema.Types.Mixed,
-  },
+  }
 });
 
 const User = mongoose.model("users", UserSchema);
