@@ -20,8 +20,8 @@ class userSessionService {
     const created = await userSessionRepository.createUserSession(userId);
     return new UserSessionViewDto(created);
   }
-  async addExitTime(date) {
-    const created = await userSessionRepository.addExitTime(date);
+  async addExitTime(userId) {
+    const created = await userSessionRepository.addExitTime(userId);
     return new UserSessionViewDto(created);
   }
   async numberOfUsersInLab(id) {

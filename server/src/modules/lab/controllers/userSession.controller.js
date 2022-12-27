@@ -3,7 +3,7 @@ import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 
 export const postUserSessionRequest = async (req, res, next) => {
-  const users = req.body.user;
+  const user = req.user.id;
   try {
     const response = await userSessionService.createUserSession(users);
     return res
@@ -49,7 +49,7 @@ export const getAllUsersInLab = async (req, res, next) => {
 
 export const postExitTimeRequest = async (req, res, next) => {
   try {
-    const response = await userSessionService.addExitTime();
+    const response = await userSessionService.addExitTime(req.user.id);
     return res
       .status(HttpStatusCodes.CREATED)
       .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
