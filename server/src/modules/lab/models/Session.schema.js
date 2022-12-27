@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 export const sessionSchema = new Schema({
   openTime: {
     type: Date,
-    default: Date.now,
     required: true,
   },
   closeTime: {
     type: Date,
-    default:null,
+    default: null,
     required: false,
   },
   assistants: [
