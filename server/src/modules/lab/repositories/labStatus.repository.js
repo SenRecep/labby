@@ -1,5 +1,6 @@
 import sessionQueryRepository from "./sessionQuery.repository.js";
 import userSessionRepository from "./userSessions.repository.js";
+import sessionAssistantRepository from "./sessionAssistant.repository.js";
 
 class labStatusRepository {
   async getOpenOrClose() {
@@ -24,7 +25,7 @@ class labStatusRepository {
 
   async getLabStatus(){
 
-    return{status: await this.getOpenOrClose(),count:await this.getNumberOfUsersInLab(),intensity:await this.getIntensity()}
+    return{status: await this.getOpenOrClose(),count:await this.getNumberOfUsersInLab(),intensity:await this.getIntensity(),assistant:await sessionAssistantRepository.getAssistant()}
   }
 }
 

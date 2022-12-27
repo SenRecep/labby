@@ -8,6 +8,13 @@ class sessionAssistantRepository {
   getAll(userId) {
     return SessionAssistant.find({ user: userId }).populate("user");
   }
+  async getAssistant(){
+    const found = await sessionQueryRepository.getThisDate();
+    const getAssistant = await SessionAssistant.findOne({session:found.id,changeTime: null}).populate({
+      path: "user",
+   }); 
+    return getAssistant.user.name + " " + getAssistant.user.surname;
+  }
   getById(id) {
     return User.findById(id);
   }
