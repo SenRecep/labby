@@ -4,21 +4,23 @@ import SessionAssistant from "../models/SessionAssistant.schema.js";
 import sessionQueryRepository from "./sessionQuery.repository.js";
 import HttpStatusCodes from "http-status-codes";
 import UserSession from "../models/UserSessions.schema.js";
-
+import { getLocalDate } from "../../../helpers/localTimeHelper.js";
 class sessionRepository {
   async createSession(userId) {
     const foundSession = await Session.find({
       closeTime: null,
     });
     console.log(foundSession);
-    if (foundSession.length>0) {
+    if (foundSession.length > 0) {
       throw new ApiError(
         "Session is already exist",
         HttpStatusCodes.BAD_REQUEST,
         "sessionRepository->getByDate"
       );
     }
-    const session = await Session.create({});
+    const session = await Session.create({
+      openTime: getLocalDate(),
+    });
     const sessionAssistant = await SessionAssistant.create({
       user: userId,
       session: session._id,
@@ -52,7 +54,7 @@ class sessionRepository {
 
   async getByDate() {
     const found = await sessionQueryRepository
-      .getByDate(new Date())
+      .getByDate(getLocalDate())
       .populate({
         path: "assistants",
         populate: {
@@ -78,14 +80,14 @@ class sessionRepository {
     const updateTime = await Session.findByIdAndUpdate(
       found._id,
       {
-        closeTime: Date.now(),
+        closeTime: getLocalDate(),
       },
       { new: true, useFindAndModify: false }
     );
     const update = await UserSession.updateMany(
       { session: found._id },
       {
-        exitTime: Date.now(),
+        exitTime: new Date(),
       },
       { new: true, useFindAndModify: false }
     );
