@@ -5,11 +5,26 @@ export interface LabStatus {
   status: string;
   count: number;
   intensity: string;
+  assistant: string;
 }
 
 export class LabHttpRepository extends HttpRepositoryBase {
-  async get(callback: (data: any) => void) {
+  get(callback: ((data: any) => void) | undefined = undefined) {
     return this.send(axios.get("/session/lab"), callback);
+  }
+  open(
+    assistant: unknown,
+    callback: ((data: any) => void) | undefined = undefined
+  ) {
+    return this.send(
+      axios.post("/session", {
+        assistant,
+      }),
+      callback
+    );
+  }
+  close(callback: ((data: any) => void) | undefined = undefined) {
+    return this.send(axios.put("/session"), callback);
   }
 }
 

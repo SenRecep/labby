@@ -5,6 +5,7 @@ import UserTokenUpdateDto from "../dtos/userTokenUpdate.dto.js";
 import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 import UserViewDto from "../dtos/userView.dto.js";
+import { RoleInfo } from "../../../constants/roleInfo.js";
 
 export const getAllRequest = async (req, res) => {
   const data = await userService.getAll();
@@ -14,7 +15,8 @@ export const getAllRequest = async (req, res) => {
 };
 
 export const postRequest = async (req, res, next) => {
-  const model = new UserCreateDto(req.body);
+  const isAdmin = req.user?.role == RoleInfo.admin || false;
+  const model = new UserCreateDto(req.body, isAdmin);
   try {
     const response = await userService.createUser(model);
     return res

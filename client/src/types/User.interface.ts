@@ -5,4 +5,5 @@ export interface User {
   email: string;
   studentNumber: string;
   role: string;
+  fullName: string;
 }

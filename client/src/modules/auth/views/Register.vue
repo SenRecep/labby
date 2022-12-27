@@ -9,6 +9,7 @@ import { useAuthStore } from "../../../stores/auth.store";
 import { useRouter } from "vue-router";
 import { User } from "@/types/User.interface";
 const loadingStore = useLoadingStore();
+const authStore = useAuthStore();
 const router = useRouter();
 const formState = reactive({
   email: "",
@@ -44,8 +45,7 @@ const formSubmit = async () => {
     if (response.error) apiErrors.errors = response.error!.errors;
     return;
   }
-
-  router.push({ name: "login" });
+  router.push({ name: authStore.isAuthenticated ? "home" : "loginn" });
 };
 </script>
 

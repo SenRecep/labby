@@ -15,10 +15,10 @@ interface SignUpModel {
 }
 
 export class AuthHttpRepository extends HttpRepositoryBase {
-  async signIn(model: SignInModel, callback: (data: any) => void) {
+  signIn(model: SignInModel, callback: (data: any) => void) {
     return this.send(axios.post("/auth", model), callback);
   }
-  async signUp(model: SignUpModel, callback: (data: any) => void) {
+  signUp(model: SignUpModel, callback: (data: any) => void) {
     return this.send(axios.post("/users", model), callback);
   }
 }

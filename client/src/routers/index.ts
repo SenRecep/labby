@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.view.vue";
 
 import authRoutes from "@/modules/auth/routers";
+import adminRoutes from "@/modules/admin/routes";
+import assistantRoutes from "@/modules/assistant/routes";
 import { useAuthStore } from "@/stores/auth.store";
 import { Roles } from "../constants/roles.constant";
 
@@ -18,7 +20,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/List.view.vue"),
   },
 ];
+
 routes.push(...authRoutes);
+routes.push(...adminRoutes);
+routes.push(...assistantRoutes);
+
 routes.push({
   name: "notfound",
   path: "/:catchAll(.*)",

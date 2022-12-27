@@ -26,6 +26,18 @@ const items = computed(() =>
       isShow: isShow("/"),
     },
     {
+      title: "Assistant Create",
+      icon: "mdi-account-plus",
+      path: "/admin/assistant-create",
+      isShow: isShow("/admin/assistant-create"),
+    },
+    {
+      title: "Managment",
+      icon: "mdi-cog",
+      path: "/assistant/managment",
+      isShow: isShow("/assistant/managment"),
+    },
+    {
       title: "List",
       icon: "mdi-calculator-variant-outline",
       path: "/list",
