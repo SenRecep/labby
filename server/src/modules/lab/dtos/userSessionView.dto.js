@@ -2,7 +2,7 @@ import UserViewDto from "../../auth/dtos/userView.dto.js";
 
 export class UserSessionViewDto{
     constructor(userSession){
-        this.id=userSession._id;
+        this.id=userSession.id;
         this.entryTime=userSession.entryTime
         this.exitTime=userSession.exitTime;
         if(userSession.user)

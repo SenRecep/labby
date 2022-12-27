@@ -2,7 +2,8 @@ import HttpStatusCodes from "http-status-codes";
 import { ErrorResponse } from "./error.js";
 export class ServiceResponse {
   constructor(data, statusCode, error = null, isSuccessful = null) {
-    if (data) this.data = data;
+    if (data|| typeof data ==="boolean") this.data = data;
+
     this.statusCode = statusCode ?? HttpStatusCodes.OK;
     this.isSuccessful = isSuccessful ?? true;
     if (error) this.error = error;
