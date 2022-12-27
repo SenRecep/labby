@@ -7,6 +7,7 @@ class UserViewDto {
     this.email = user.email;
     this.studentNumber = user.studentNumber;
     this.registrationToken=user.registrationToken;
+    this.fullName=`${this.name} ${this.surname}`;
   }
 }
 
