@@ -38,10 +38,16 @@ const items = computed(() =>
       isShow: isShow("/assistant/managment"),
     },
     {
-      title: "List",
-      icon: "mdi-calculator-variant-outline",
-      path: "/list",
-      isShow: isShow("/list"),
+      title: "Users",
+      icon: "mdi-clipboard-list-outline",
+      path: "/assistant/users",
+      isShow: isShow("/assistant/users"),
+    },
+    {
+      title: "Sessions",
+      icon: "mdi-format-list-bulleted",
+      path: "/assistant/sessions",
+      isShow: isShow("/assistant/sessions"),
     },
   ].filter((x) => x.isShow == undefined || x.isShow)
 );

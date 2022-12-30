@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, useAttrs } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useLabStore } from "@/stores/lab.store";
 import InButton from "./SessionManagment/InButton.vue";
 import OutButton from "./SessionManagment/OutButton.vue";
@@ -10,6 +10,14 @@ const sessionStore = useSessionStore();
 sessionStore.load();
 const labStore = useLabStore();
 labStore.load();
+
+const props = defineProps<{
+  forceReloader: () => void;
+}>();
+
+watch(sessionStore, () => {
+  props.forceReloader();
+});
 
 const isLoading = ref(false);
 

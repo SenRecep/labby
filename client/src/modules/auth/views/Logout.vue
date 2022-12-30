@@ -2,9 +2,14 @@
 import localStorageService from "@/stores/localstorages/localstorage.service";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../../stores/auth.store";
+import constants from "@/stores/constants";
 const store = useAuthStore();
 
-localStorageService.removeKeys(["token", "user"]);
+localStorageService.removeKeys([
+  constants.localStorages.user,
+  constants.localStorages.token,
+  constants.localStorages.session,
+]);
 store.$reset();
 
 const router = useRouter();

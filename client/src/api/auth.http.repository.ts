@@ -12,6 +12,7 @@ interface SignUpModel {
   name: string;
   surname: string;
   studentNumber: string;
+  phone: string;
 }
 
 export class AuthHttpRepository extends HttpRepositoryBase {

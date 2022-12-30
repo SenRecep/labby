@@ -17,6 +17,7 @@ const formState = reactive({
   name: "",
   surname: "",
   studentNumber: "",
+  phone: "",
 });
 
 const apiErrors = reactive({
@@ -29,6 +30,7 @@ const rules = computed(() => ({
   name: { required },
   surname: { required },
   studentNumber: { required },
+  phone: { required },
 }));
 
 const validator = useVuelidate(rules, formState);
@@ -92,6 +94,20 @@ const formSubmit = async () => {
               v-model="formState.surname"
               :error-messages="
                 validator.surname.$errors.map((x) => x.$message.toString())
+              "
+            ></v-text-field>
+
+            <v-text-field
+              class="mb-4"
+              prepend-icon="mdi-cellphone"
+              placeholder="Your Phone Number"
+              name="phonenumber"
+              label="Phone Number"
+              type="tel"
+              clearable
+              v-model="formState.phone"
+              :error-messages="
+                validator.phone.$errors.map((x) => x.$message.toString())
               "
             ></v-text-field>
 

@@ -3,12 +3,12 @@ import { ServiceResponse } from "../../../common/serviceResponse.js";
 import HttpStatusCodes from "http-status-codes";
 import labStatus from "../repositories/labStatus.repository.js";
 
-export const getSessionsByDate = async (req, res,next) => {
+export const getSessionsByDate = async (req, res, next) => {
   try {
     const data = await sessionService.getByDate();
-  return res
-    .status(HttpStatusCodes.OK)
-    .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
+    return res
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,6 @@ export const getByIdRequest = async (req, res) => {
 };
 
 export const getLabStatus = async (req, res, next) => {
-  
   try {
     const data = await labStatus.getLabStatus();
     return res
@@ -62,7 +61,7 @@ export const getLabStatus = async (req, res, next) => {
   }
 };
 
-export const getLabHistory=async(req,res,next)=>{
+export const getLabHistory = async (req, res, next) => {
   try {
     const data = await sessionService.getLabHistory();
     return res
@@ -71,7 +70,7 @@ export const getLabHistory=async(req,res,next)=>{
   } catch (error) {
     next(error);
   }
-}
+};
 
 export default {
   getAllSessions,
@@ -80,5 +79,5 @@ export default {
   postCloseTimeRequest,
   getSessionsByDate,
   getLabStatus,
-  getLabHistory
+  getLabHistory,
 };

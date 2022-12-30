@@ -47,7 +47,7 @@ export const getAllUsersInLab = async (req, res, next) => {
   }
 };
 
-export const getUserSessionsById=async(req,res,next)=>{
+export const getUserSessionsById = async (req, res, next) => {
   try {
     const data = await userSessionService.getUserSessionsById(req.user.id);
     return res
@@ -56,7 +56,7 @@ export const getUserSessionsById=async(req,res,next)=>{
   } catch (error) {
     next(error);
   }
-}
+};
 
 export const postExitTimeRequest = async (req, res, next) => {
   try {
@@ -111,5 +111,5 @@ export default {
   getAllUserSessionsByDate,
   getIntensity,
   isUserInLab,
-  getUserSessionsById
+  getUserSessionsById,
 };

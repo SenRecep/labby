@@ -5,19 +5,13 @@ import authRoutes from "@/modules/auth/routers";
 import adminRoutes from "@/modules/admin/routes";
 import assistantRoutes from "@/modules/assistant/routes";
 import { useAuthStore } from "@/stores/auth.store";
-import { Roles } from "../constants/roles.constant";
 
 const routes: Array<RouteRecordRaw> = [
   {
     name: "home",
     path: "/",
+    meta: { requiresAuth: true },
     component: Home,
-  },
-  {
-    name: "list",
-    path: "/list",
-    meta: { requiresAuth: true, roles: [Roles.admin] },
-    component: () => import("@/views/List.view.vue"),
   },
 ];
 

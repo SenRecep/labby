@@ -204,7 +204,7 @@ const handleStep = async () => {
                 :prepend-icon="step < 2 ? 'mdi-redo' : 'mdi-check'"
                 type="button"
                 variant="outlined"
-                >{{ step < 2 ? "Next" : "Donne" }}</v-btn
+                >{{ step < 2 ? "Next" : "Done" }}</v-btn
               >
             </v-card-actions>
           </v-form>

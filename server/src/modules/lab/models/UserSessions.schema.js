@@ -12,7 +12,6 @@ const UserSessionSchema = new Schema({
   },
   entryTime: {
     type: Date,
-    default: Date.now,
     required: true,
   },
   exitTime: {

@@ -1,5 +1,6 @@
 import sessionRepository from "../repositories/session.repository.js";
-import {SessionViewDto} from '../dtos/sessionView.dto.js'
+import { SessionViewDto } from "../dtos/sessionView.dto.js";
+import { SessionHistoryViewDto } from "../dtos/SessionHistoryView.dto.js";
 class sessionService {
   async getAll(date) {
     const session = await sessionRepository.getAll(date);
@@ -8,7 +9,7 @@ class sessionService {
   }
   async getByDate() {
     const session = await sessionRepository.getByDate();
-    const model= new SessionViewDto(session)
+    const model = new SessionViewDto(session);
     return model;
   }
   async getById(id) {
@@ -28,8 +29,9 @@ class sessionService {
     return resolve;
   }
   async getLabHistory() {
-    const history = await sessionRepository.getLabHistory();
-    return history;
+    const sessions = await sessionRepository.getLabHistory();
+    const model = sessions.map((s) => new SessionHistoryViewDto(s));
+    return model;
   }
 }
 

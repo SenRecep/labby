@@ -96,23 +96,31 @@ class sessionRepository {
   getById(id) {
     return Session.findById(id);
   }
-  async getLabHistory(){
-    const sessionList= await Session.find({}).populate({
-      path: "assistants",
-      populate: {
-        path: "user",
-      },
-    })
-    .populate({
-      path: "userSessions",
-      populate: {
-        path: "user",
-      },
+  async getLabHistory() {
+    const sessionList = await Session.find({})
+      .populate({
+        path: "assistants",
+        populate: {
+          path: "user",
+        },
+      })
+      .populate({
+        path: "userSessions",
+        populate: {
+          path: "user",
+        },
+      })
+      .sort({
+        openTime: "desc",
+      });
+
+    sessionList.forEach((session) => {
+      session.visitors = [
+        ...new Set(session.userSessions.map((item) => item.user.id)),
+      ].length;
     });
 
-    const sessionDays=sessionList.map(e=>({closeTime:e.closeTime, openTime:e.openTime, assistants:e.assistants, population:e.userSessions.length}));
-    
-    return sessionDays;
+    return sessionList;
   }
 }
 

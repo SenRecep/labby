@@ -1,5 +1,5 @@
 import userSessionRepository from "../repositories/userSessions.repository.js";
-import {UserSessionViewDto} from '../dtos/userSessionView.dto.js';
+import { UserSessionViewDto } from "../dtos/userSessionView.dto.js";
 
 class userSessionService {
   async getAllUserSessions() {
@@ -7,9 +7,10 @@ class userSessionService {
     const model = session.map((se) => new UserSessionViewDto(se));
     return model;
   }
-  async getAllUserSessionsByDate(id) {
-    const session = await userSessionRepository.getAllUserSessionsByDate(id);
-    return new UserSessionViewDto(session);
+  async getAllUserSessionsByDate() {
+    const session = await userSessionRepository.getAllUserSessionsByDate();
+    const model = session.map((se) => new UserSessionViewDto(se));
+    return model;
   }
   async getAllUsersInLab(id) {
     const session = await userSessionRepository.getAllUsersInLab(id);
@@ -32,13 +33,14 @@ class userSessionService {
     const session = await userSessionRepository.intensity(id);
     return session;
   }
-  async isUserInLab(userId)
-  {
+  async isUserInLab(userId) {
     const result = await userSessionRepository.isUserInLab(userId);
     return result;
   }
-  async getUserSessionsById(userId){
-    const sessions = await userSessionRepository.getAllUserSessionsByDate(userId);
+  async getUserSessionsById(userId) {
+    const sessions = await userSessionRepository.getAllUserSessionsByDate(
+      userId
+    );
     return sessions;
   }
 }

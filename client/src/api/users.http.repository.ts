@@ -19,6 +19,9 @@ export class UsersHttpRepository extends HttpRepositoryBase {
     );
     return response as User;
   }
+  getHistory(callback: ((data: any) => void) | undefined = undefined) {
+    return this.send(axios.get(`/usersession/userhistory`), callback);
+  }
 }
 
 const instance = new UsersHttpRepository();

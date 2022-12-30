@@ -3,6 +3,7 @@ import Session from "../models/Session.schema.js";
 import UserSession from "../models/UserSessions.schema.js";
 import HttpStatusCodes from "http-status-codes";
 import sessionQueryRepository from "./sessionQuery.repository.js";
+import { getLocalDate } from "../../../helpers/localTimeHelper.js";
 
 class userSessionRepository {
   async createUserSession(userId) {
@@ -17,6 +18,7 @@ class userSessionRepository {
     const userSession = await UserSession.create({
       user: userId,
       session: findSessionDate._id,
+      entryTime: getLocalDate(),
     });
     const update = await Session.findByIdAndUpdate(
       findSessionDate._id,
@@ -38,7 +40,7 @@ class userSessionRepository {
         exitTime: null,
       },
       {
-        exitTime: Date.now(),
+        exitTime: getLocalDate(),
       },
       { new: true, useFindAndModify: false }
     );
@@ -46,17 +48,19 @@ class userSessionRepository {
   }
   async getAllUserSessionsByDate() {
     const found = await sessionQueryRepository.getThisDate();
-    const getUser = await UserSession.find({ session: found._id });
+    const getUser = await UserSession.find({ session: found._id })
+      .populate("user")
+      .sort({ entryTime: "desc" });
     return getUser;
   }
   async getAllUserSessions() {
     const getUser = await UserSession.find({});
     return getUser;
   }
-  async getUserSessionsById(userId){
-    const sessions= await UserSession.find({
-      user:userId
-    })
+  async getUserSessionsById(userId) {
+    const sessions = await UserSession.find({
+      user: userId,
+    });
     return sessions;
   }
   async getAllUsersInLab() {
@@ -70,15 +74,17 @@ class userSessionRepository {
     const getUser = await UserSession.find({
       session: found._id,
       exitTime: null,
-    }).populate("user");
+    })
+      .populate("user")
+      .sort({ entryTime: "desc" });
     return getUser;
   }
-  async isUserInLab(userId){
+  async isUserInLab(userId) {
     const foundSession = await UserSession.findOne({
       exitTime: null,
-      user:userId
+      user: userId,
     });
-    return foundSession!=null;
+    return foundSession != null;
   }
 }
 
