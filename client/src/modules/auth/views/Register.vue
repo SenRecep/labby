@@ -47,7 +47,7 @@ const formSubmit = async () => {
     if (response.error) apiErrors.errors = response.error!.errors;
     return;
   }
-  router.push({ name: authStore.isAuthenticated ? "home" : "loginn" });
+  router.push({ name: authStore.isAuthenticated ? "home" : "login" });
 };
 </script>
 
