@@ -1,31 +1,35 @@
 import sessionQueryRepository from "./sessionQuery.repository.js";
 import userSessionRepository from "./userSessions.repository.js";
 import sessionAssistantRepository from "./sessionAssistant.repository.js";
+import { LabInfo } from "../../../constants/labInfo.js";
+import UserViewDto from "../../auth/dtos/userView.dto.js";
 
 class labStatusRepository {
-  async getOpenOrClose() {
-    const lab = await sessionQueryRepository.getThisDate();
-    if (lab.closeTime == null && lab.openTime) {
-      return "Open";
-    } else {
-      return "Close";
-    }
+  getOpenOrClose(session) {
+    return session.closeTime == null && session.openTime
+      ? LabInfo.status.open
+      : LabInfo.status.close;
   }
 
-  async getNumberOfUsersInLab(){
-    const number = (await userSessionRepository.getAllUsersInLab()).length;
-    return number;
+  getNumberOfUsersInLab(users) {
+    return users.length;
   }
 
-  async getIntensity(){
-    const number = (await userSessionRepository.getAllUsersInLab()).length;
-    const rate = (number*100)/50;
+  getIntensity(users) {
+    const rate = (users.length / LabInfo.capacity) * 100;
     return `%${rate}`;
   }
 
-  async getLabStatus(){
-
-    return{status: await this.getOpenOrClose(),count:await this.getNumberOfUsersInLab(),intensity:await this.getIntensity(),assistant:await sessionAssistantRepository.getAssistant()}
+  async getLabStatus() {
+    const session = await sessionQueryRepository.getToday();
+    const users = await userSessionRepository.getAllUsersInLab(session);
+    const assistant = await sessionAssistantRepository.getAssistant(session);
+    return {
+      status: this.getOpenOrClose(session),
+      count: this.getNumberOfUsersInLab(users),
+      intensity: this.getIntensity(users),
+      assistant: new UserViewDto(assistant),
+    };
   }
 }
 

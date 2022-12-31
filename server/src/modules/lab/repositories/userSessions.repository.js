@@ -5,26 +5,26 @@ import HttpStatusCodes from "http-status-codes";
 import sessionQueryRepository from "./sessionQuery.repository.js";
 import { getLocalDate } from "../../../helpers/localTimeHelper.js";
 
-class userSessionRepository {
+class UserSessionRepository {
   async createUserSession(userId) {
-    const findSessionDate = await sessionQueryRepository.getThisDate();
-    if (!findSessionDate || findSessionDate.closeTime != null)
+    const session = await sessionQueryRepository.getToday();
+    if (!session || session.closeTime != null)
       throw new ApiError(
         "Session not found",
         HttpStatusCodes.BAD_REQUEST,
-        "userSessionRepository->userSesRepository"
+        "UserSessionRepository->userSesRepository"
       );
 
     const userSession = await UserSession.create({
       user: userId,
-      session: findSessionDate._id,
+      session: session.id,
       entryTime: getLocalDate(),
     });
-    const update = await Session.findByIdAndUpdate(
-      findSessionDate._id,
+    await Session.findByIdAndUpdate(
+      session.id,
       {
         $push: {
-          userSessions: userSession._id,
+          userSessions: userSession.id,
         },
       },
       { new: true, useFindAndModify: false }
@@ -32,10 +32,10 @@ class userSessionRepository {
     return userSession;
   }
   async addExitTime(userId) {
-    const found = await sessionQueryRepository.getThisDate();
+    const found = await sessionQueryRepository.getToday();
     const updateTime = await UserSession.findOneAndUpdate(
       {
-        session: found._id,
+        session: found.id,
         userId: userId,
         exitTime: null,
       },
@@ -47,11 +47,19 @@ class userSessionRepository {
     return updateTime;
   }
   async getAllUserSessionsByDate() {
-    const found = await sessionQueryRepository.getThisDate();
-    const getUser = await UserSession.find({ session: found._id })
+    const found = await sessionQueryRepository.getToday();
+    const getUser = await UserSession.find({ session: found.id })
       .populate("user")
       .sort({ entryTime: "desc" });
     return getUser;
+  }
+  async getUserSessionsByUserId(userId) {
+    const found = await sessionQueryRepository.getToday();
+    const userSessions = await UserSession.find({
+      session: found.id,
+      user: userId,
+    }).sort({ entryTime: "desc" });
+    return userSessions;
   }
   async getAllUserSessions() {
     const getUser = await UserSession.find({});
@@ -64,20 +72,14 @@ class userSessionRepository {
     return sessions;
   }
   async getAllUsersInLab() {
-    const found = await sessionQueryRepository.getThisDate();
-    if (!found)
-      throw new Error(
-        "Close",
-        HttpStatusCodes.BAD_REQUEST,
-        "userSessionRepository->getAllUsersInLab"
-      );
-    const getUser = await UserSession.find({
-      session: found._id,
+    const found = await sessionQueryRepository.getToday();
+    const userSession = await UserSession.find({
+      session: found.id,
       exitTime: null,
     })
       .populate("user")
       .sort({ entryTime: "desc" });
-    return getUser;
+    return userSession;
   }
   async isUserInLab(userId) {
     const foundSession = await UserSession.findOne({
@@ -88,7 +90,7 @@ class userSessionRepository {
   }
 }
 
-const instance = new userSessionRepository();
+const instance = new UserSessionRepository();
 
 export default instance;
 

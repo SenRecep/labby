@@ -8,11 +8,10 @@ import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { notFoundMiddleware } from "../middlewares/notfound.middleware.js";
 import morganConfig from "./morgan.plugin.js";
 
-
 const usePlugins = (app) => {
   app.use(cors());
   app.use(json());
-  
+
   app.use(morgan(morganConfig));
 
   app.use(authMiddleware);

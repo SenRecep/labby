@@ -16,21 +16,21 @@ export const postUserSessionRequest = async (req, res, next) => {
 
 export const getAllUserSessions = async (req, res, next) => {
   try {
-    const data = await userSessionService.getAllUserSessions();
+    const data = await userSessionService.getAllUserSessionsByDate();
     return res
-      .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
   } catch (error) {
     next(error);
   }
 };
 
-export const getAllUserSessionsByDate = async (req, res, next) => {
+export const getUserSessionsByUserId = async (req, res, next) => {
   try {
-    const data = await userSessionService.getAllUserSessionsByDate();
+    const data = await userSessionService.getUserSessionsByUserId(req.user.id);
     return res
-      .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
+      .status(HttpStatusCodes.OK)
+      .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
   } catch (error) {
     next(error);
   }
@@ -39,17 +39,6 @@ export const getAllUserSessionsByDate = async (req, res, next) => {
 export const getAllUsersInLab = async (req, res, next) => {
   try {
     const data = await userSessionService.getAllUsersInLab();
-    return res
-      .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getUserSessionsById = async (req, res, next) => {
-  try {
-    const data = await userSessionService.getUserSessionsById(req.user.id);
     return res
       .status(HttpStatusCodes.OK)
       .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
@@ -69,28 +58,6 @@ export const postExitTimeRequest = async (req, res, next) => {
   }
 };
 
-export const numberOfUsersInLab = async (req, res, next) => {
-  try {
-    const data = await userSessionService.numberOfUsersInLab();
-    return res
-      .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getIntensity = async (req, res, next) => {
-  try {
-    const data = await userSessionService.intensity();
-    return res
-      .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(data, HttpStatusCodes.CREATED));
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const isUserInLab = async (req, res, next) => {
   try {
     const data = await userSessionService.isUserInLab(req.user.id);
@@ -104,12 +71,9 @@ export const isUserInLab = async (req, res, next) => {
 
 export default {
   postUserSessionRequest,
+  getUserSessionsByUserId,
   getAllUserSessions,
   postExitTimeRequest,
   getAllUsersInLab,
-  numberOfUsersInLab,
-  getAllUserSessionsByDate,
-  getIntensity,
   isUserInLab,
-  getUserSessionsById,
 };

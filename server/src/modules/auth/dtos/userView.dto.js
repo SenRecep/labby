@@ -1,6 +1,6 @@
 class UserViewDto {
   constructor(user) {
-    this.id = user._id;
+    this.id = user.id;
     this.role = user.role;
     this.name = user.name;
     this.surname = user.surname;

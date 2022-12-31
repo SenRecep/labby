@@ -1,42 +1,34 @@
 import sessionRepository from "../repositories/session.repository.js";
 import { SessionViewDto } from "../dtos/sessionView.dto.js";
 import { SessionHistoryViewDto } from "../dtos/SessionHistoryView.dto.js";
-class sessionService {
-  async getAll(date) {
-    const session = await sessionRepository.getAll(date);
-    const model = session.map((se) => new SessionViewDto(se));
+class SessionService {
+  async getAll() {
+    const data = await sessionRepository.getAll();
+    const model = data.map((se) => new SessionViewDto(se));
     return model;
   }
   async getByDate() {
-    const session = await sessionRepository.getByDate();
-    const model = new SessionViewDto(session);
+    const data = await sessionRepository.getByDate();
+    const model = new SessionViewDto(data);
     return model;
   }
-  async getById(id) {
-    const session = await sessionRepository.getById(id);
-    return session;
+  async createSession(assistantId) {
+    const data = await sessionRepository.createSession(assistantId);
+    return new SessionViewDto(data);
   }
-  async createSession(id) {
-    const created = await sessionRepository.createSession(id);
-    return new SessionViewDto(created);
-  }
-  async addCloseTime(date) {
-    const created = await sessionRepository.addCloseTime(date);
-    return new SessionViewDto(created);
-  }
-  async getOpenOrClose() {
-    const resolve = await sessionRepository.getOpenOrClose();
-    return resolve;
+  async addCloseTime() {
+    const data = await sessionRepository.addCloseTime();
+    return new SessionViewDto(data);
   }
   async getLabHistory() {
-    const sessions = await sessionRepository.getLabHistory();
-    const model = sessions.map((s) => new SessionHistoryViewDto(s));
+    const data = await sessionRepository.getLabHistory();
+    const model = data.map((s) => new SessionHistoryViewDto(s));
     return model;
   }
 }
 
-const instance = new sessionService();
+const instance = new SessionService();
 
 export default instance;
 
-export { sessionService };
+export { SessionService };

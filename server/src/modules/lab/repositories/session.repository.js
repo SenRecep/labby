@@ -5,17 +5,14 @@ import sessionQueryRepository from "./sessionQuery.repository.js";
 import HttpStatusCodes from "http-status-codes";
 import UserSession from "../models/UserSessions.schema.js";
 import { getLocalDate } from "../../../helpers/localTimeHelper.js";
-class sessionRepository {
+class SessionRepository {
   async createSession(userId) {
-    const foundSession = await Session.find({
-      closeTime: null,
-    });
-    console.log(foundSession);
-    if (foundSession.length > 0) {
+    const foundSession = await sessionQueryRepository.findToday();
+    if (foundSession) {
       throw new ApiError(
         "Session is already exist",
         HttpStatusCodes.BAD_REQUEST,
-        "sessionRepository->getByDate"
+        "SessionRepository->createSession"
       );
     }
     const session = await Session.create({
@@ -23,18 +20,18 @@ class sessionRepository {
     });
     const sessionAssistant = await SessionAssistant.create({
       user: userId,
-      session: session._id,
+      session: session.id,
     });
-    const update = await Session.findByIdAndUpdate(
-      session._id,
+    await Session.findByIdAndUpdate(
+      session.id,
       {
         $push: {
-          assistants: sessionAssistant._id,
+          assistants: sessionAssistant.id,
         },
       },
       { new: true, useFindAndModify: false }
     );
-    return await Session.findById(session._id).populate("assistants");
+    return await Session.findById(session.id).populate("assistants");
   }
   async getAll() {
     return Session.find({})
@@ -54,7 +51,7 @@ class sessionRepository {
 
   async getByDate() {
     const found = await sessionQueryRepository
-      .getByDate(getLocalDate())
+      .getToday()
       .populate({
         path: "assistants",
         populate: {
@@ -71,30 +68,27 @@ class sessionRepository {
       throw new ApiError(
         "Session not found",
         HttpStatusCodes.BAD_REQUEST,
-        "sessionRepository->getByDate"
+        "SessionRepository->getByDate"
       );
     return found;
   }
   async addCloseTime() {
-    const found = await sessionQueryRepository.getThisDate();
-    const updateTime = await Session.findByIdAndUpdate(
-      found._id,
+    const found = await sessionQueryRepository.getToday();
+    const updated = await Session.findByIdAndUpdate(
+      found.id,
       {
         closeTime: getLocalDate(),
       },
       { new: true, useFindAndModify: false }
     );
-    const update = await UserSession.updateMany(
-      { session: found._id },
+    await UserSession.updateMany(
+      { session: found.id },
       {
-        exitTime: new Date(),
+        exitTime: getLocalDate(),
       },
       { new: true, useFindAndModify: false }
     );
-    return updateTime;
-  }
-  getById(id) {
-    return Session.findById(id);
+    return updated;
   }
   async getLabHistory() {
     const sessionList = await Session.find({})
@@ -124,7 +118,7 @@ class sessionRepository {
   }
 }
 
-const instance = new sessionRepository();
+const instance = new SessionRepository();
 
 export default instance;
 

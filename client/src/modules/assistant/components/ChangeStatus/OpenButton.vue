@@ -5,8 +5,9 @@ import { ServiceResponse } from "@/types/ServiceResponse.interface";
 import { useLabStore } from "../../../../stores/lab.store";
 import { useAssistantsStore } from "../../../../stores/assistants.store";
 import { ref } from "@vue/reactivity";
+import { User } from "@/types/User.interface";
 const props = defineProps<{
-  assistant: unknown;
+  assistant?: User;
 }>();
 const assistantStore = useAssistantsStore();
 const labStore = useLabStore();
@@ -19,8 +20,10 @@ const click = async () => {
   )) as ServiceResponse<NoContentResponse>;
 
   if (!response.isSuccessful) return;
-  const found = assistantStore.assistants.find((x) => x.id == props.assistant);
-  labStore.open(found?.fullName!);
+  const found = assistantStore.assistants.find(
+    (x) => x.id == props.assistant?.id
+  );
+  labStore.open(found!);
 };
 </script>
 <template>

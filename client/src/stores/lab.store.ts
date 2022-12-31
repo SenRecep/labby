@@ -2,12 +2,15 @@ import { defineStore } from "pinia";
 import constants from "./constants";
 import { LabStatus } from "@/api/lab.http.repository";
 import localStorageService from "@/stores/localstorages/localstorage.service";
+import { User } from "@/types/User.interface";
 
 const defaultData = {
   status: "Close",
   count: 0,
   intensity: "0%",
-  assistant: "...",
+  assistant: {
+    fullName: "...",
+  } as User,
 } as LabStatus;
 
 export const useLabStore = defineStore({
@@ -33,15 +36,19 @@ export const useLabStore = defineStore({
       this.status = data ?? defaultData;
       localStorageService.set(constants.localStorages.lab, this.status);
     },
-    open(assistant: string) {
-      this.status = { ...defaultData, status: "Open", assistant };
+    open(assistant: User) {
+      this.status = {
+        ...defaultData,
+        status: "Open",
+        assistant,
+      };
       localStorageService.set(constants.localStorages.lab, this.status);
     },
     close() {
       this.status = defaultData;
       localStorageService.set(constants.localStorages.lab, this.status);
     },
-    changeAssistant(assistant: string) {
+    changeAssistant(assistant: User) {
       this.status!.assistant = assistant;
       localStorageService.set(constants.localStorages.lab, this.status);
     },

@@ -15,10 +15,13 @@ export class AssistantsHttpRepository extends HttpRepositoryBase {
     return this.send(axios.get(`/users/role/${Roles.assistant}`), callback);
   }
   change(
-    assistants: unknown,
+    assistant?: User,
     callback: ((data: any) => void) | undefined = undefined
   ) {
-    return this.send(axios.post(`/sessionAssistant`, { assistants }), callback);
+    return this.send(
+      axios.post(`/sessionAssistant`, { assistants: assistant?.id }),
+      callback
+    );
   }
   getUsersInLab(callback: ((data: any) => void) | undefined = undefined) {
     return this.send(axios.get(`/usersession/inlab`), callback);

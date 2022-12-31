@@ -4,8 +4,9 @@ import { useLabStore } from "@/stores/lab.store";
 import AssistantsSelect from "./AssistantsSelectComponent.vue";
 import OpenButton from "./ChangeStatus/OpenButton.vue";
 import CloseButton from "./ChangeStatus/CloseButton.vue";
+import { User } from "@/types/User.interface";
 const labStore = useLabStore();
-const selectedAssistant = ref<unknown>();
+const selectedAssistant = ref<User>();
 </script>
 <template>
   <v-card prepend-icon="mdi-cog" class="h-100">

@@ -13,7 +13,6 @@ onMounted(async () => {
     (await sessionHttpRepository.getSessionHistory()) as ServiceResponse<
       SessionHistory[]
     >;
-  console.log(response);
 
   if (response.isSuccessful) state.sessions = response.data!;
 });

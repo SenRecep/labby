@@ -11,7 +11,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(controller.getAllRequest)
+  .get(requiredAuthMiddleware, controller.getAllRequest)
   .post(userValidator, validationResponseMiddleware, controller.postRequest)
   .put(controller.updatePasswordByIdRequest)
   .patch(controller.updateNotifyTokenByIdRequest);

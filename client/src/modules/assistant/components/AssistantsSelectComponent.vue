@@ -5,16 +5,17 @@ import { ServiceResponse } from "@/types/ServiceResponse.interface";
 import { User } from "@/types/User.interface";
 import { useAssistantsStore } from "../../../stores/assistants.store";
 const props = defineProps<{
-  selectedAssistant: unknown;
+  selectedAssistant?: User;
 }>();
 const emit = defineEmits<{
-  (e: "update:selectedAssistant", value: unknown): void;
+  (e: "update:selectedAssistant", value?: User): void;
 }>();
 const assistantsStore = useAssistantsStore();
 const isLoading = ref(false);
-const selected = ref(props.selectedAssistant);
+const selected = ref(props.selectedAssistant?.id);
 watch(selected, (current) => {
-  emit("update:selectedAssistant", current);
+  const found = assistantsStore.assistants.find((x) => x.id == current);
+  emit("update:selectedAssistant", found);
 });
 
 onMounted(async () => {

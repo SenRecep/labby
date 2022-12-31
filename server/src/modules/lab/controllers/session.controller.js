@@ -27,7 +27,7 @@ export const postSessionRequest = async (req, res, next) => {
     const response = await sessionService.createSession(assistantId);
     return res
       .status(HttpStatusCodes.CREATED)
-      .json(ServiceResponse.successWithData(response, HttpStatusCodes.CREATED));
+      .json(ServiceResponse.success(HttpStatusCodes.CREATED));
   } catch (error) {
     next(error);
   }
@@ -41,13 +41,6 @@ export const postCloseTimeRequest = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-export const getByIdRequest = async (req, res) => {
-  const data = await sessionService.getById(req.params.id);
-  return res
-    .status(HttpStatusCodes.OK)
-    .json(ServiceResponse.successWithData(data, HttpStatusCodes.OK));
 };
 
 export const getLabStatus = async (req, res, next) => {
@@ -75,7 +68,6 @@ export const getLabHistory = async (req, res, next) => {
 export default {
   getAllSessions,
   postSessionRequest,
-  getByIdRequest,
   postCloseTimeRequest,
   getSessionsByDate,
   getLabStatus,

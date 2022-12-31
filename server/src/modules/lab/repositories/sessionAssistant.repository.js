@@ -1,50 +1,45 @@
 import SessionAssistant from "../models/SessionAssistant.schema.js";
-import { ApiError } from "../../../common/apiError.js";
 import Session from "../models/Session.schema.js";
 import sessionQueryRepository from "./sessionQuery.repository.js";
-import HttpStatusCodes from "http-status-codes";
+import { getLocalDate } from "../../../helpers/localTimeHelper.js";
 
-class sessionAssistantRepository {
-  getAll(userId) {
-    return SessionAssistant.find({ user: userId }).populate("user");
-  }
-  async getAssistant(){
-    const found = await sessionQueryRepository.getThisDate();
-    const getAssistant = await SessionAssistant.findOne({session:found.id,changeTime: null}).populate({
+class SessionAssistantRepository {
+  async getAssistant(session) {
+    const sessionAssistant = await SessionAssistant.findOne({
+      session: session.id,
+      changeTime: null,
+    }).populate({
       path: "user",
-   }); 
-    return getAssistant.user.name + " " + getAssistant.user.surname;
+    });
+    return sessionAssistant.user;
   }
-  getById(id) {
-    return User.findById(id);
-  }
-  async postAssistant(userId) {
-    const found = await sessionQueryRepository.getThisDate();
-    const updateAssistant = await SessionAssistant.findOneAndUpdate(
-      { changeTime: null, session: found.id },
-      { changeTime: Date.now() },
+  async changeAssistant(userId) {
+    const session = await sessionQueryRepository.getToday();
+    await SessionAssistant.findOneAndUpdate(
+      { changeTime: null, session: session.id },
+      { changeTime: getLocalDate() },
       { new: true }
     );
     const sessionAssistant = await SessionAssistant.create({
       user: userId,
-      session: found.id,
+      session: session.id,
     });
-    const update = await Session.findByIdAndUpdate(
-      found._id,
+    await Session.findByIdAndUpdate(
+      session.id,
       {
         $push: {
-          assistants: sessionAssistant._id,
+          assistants: sessionAssistant.id,
         },
       },
       { new: true, useFindAndModify: false }
     );
-    return await SessionAssistant
-      .findById(sessionAssistant._id)
-      .populate("session");
+    return await SessionAssistant.findById(sessionAssistant.id).populate(
+      "session"
+    );
   }
 }
 
-const instance = new sessionAssistantRepository();
+const instance = new SessionAssistantRepository();
 
 export default instance;
 

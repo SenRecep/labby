@@ -6,7 +6,8 @@ import { useLabStore } from "@/stores/lab.store";
 import { ServiceResponse } from "@/types/ServiceResponse.interface";
 import { NoContentResponse } from "@/types/NoContentResponse.interface";
 import { useAssistantsStore } from "@/stores/assistants.store";
-const selectedAssistant = ref<unknown>();
+import { User } from "@/types/User.interface";
+const selectedAssistant = ref<User>();
 const isLoading = ref(false);
 const labStore = useLabStore();
 const assistantsStore = useAssistantsStore();
@@ -18,10 +19,10 @@ const click = async () => {
   )) as ServiceResponse<NoContentResponse>;
   if (!response.isSuccessful) return;
   const found = assistantsStore.assistants.find(
-    (x) => x.id == selectedAssistant.value
+    (x) => x.id == selectedAssistant.value?.id
   );
 
-  labStore.changeAssistant(found?.fullName!);
+  labStore.changeAssistant(found!);
 };
 </script>
 <template>

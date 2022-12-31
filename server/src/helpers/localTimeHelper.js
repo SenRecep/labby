@@ -1,3 +1,9 @@
+import moment from "moment";
+moment.locale("tr");
 export const getLocalDate = () => {
-  return new Date(Date.now() - new Date().getTimezoneOffset() * 60000);
+  return moment().toDate();
+};
+
+export const getLocalMoment = () => {
+  return moment();
 };

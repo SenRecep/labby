@@ -18,6 +18,7 @@ onMounted(async () => {
     labStore.close();
     return;
   }
+
   labStore.setStatus(response.data!);
 });
 </script>
@@ -40,7 +41,7 @@ onMounted(async () => {
         <v-col cols="6">
           <h5 class="text-h5 pt-1">Assistant</h5>
           <h6 class="text-h6 pt-1 text-secondary">
-            {{ labStore.status?.assistant }}
+            {{ labStore.status?.assistant?.fullName }}
           </h6>
           <h5 class="text-h5 pt-1">Intensity</h5>
           <h6 class="text-h6 pt-1 text-secondary">

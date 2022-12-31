@@ -1,37 +1,39 @@
+import moment from "moment";
 import { ApiError } from "../../../common/apiError.js";
 import Session from "../models/Session.schema.js";
-import UserSession from "../models/UserSessions.schema.js";
 import HttpStatusCodes from "http-status-codes";
-import { getLocalDate } from "../../../helpers/localTimeHelper.js";
-class sessionQueryRepository {
-  getByDate(date) {
-    const query = {
-      day: date.getDate(),
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-    };
+class SessionQueryRepository {
+  getByDate({ startDate, endDate }) {
     return Session.findOne({
       openTime: {
-        $gte: new Date(`${query.year}-${query.month}-${query.day}`),
-        $lt: new Date(`${query.year}-${query.month}-${query.day + 1}`),
+        $gte: startDate,
+        $lt: endDate,
       },
       closeTime: null,
     });
   }
-  async getThisDate() {
-    const found = await this.getByDate(getLocalDate());
+  async findToday() {
+    const today = moment().startOf("day");
+    const found = await this.getByDate({
+      startDate: today.toDate(),
+      endDate: moment(today).endOf("day").toDate(),
+    });
+    return found;
+  }
+  async getToday() {
+    const found = await this.findToday();
     if (!found)
       throw new ApiError(
         "Session not found",
-        HttpStatusCodes.BAD_REQUEST,
-        "userSessionRepository->getBy"
+        HttpStatusCodes.NOT_FOUND,
+        "SessionQueryRepository->getToday"
       );
 
     return found;
   }
 }
 
-const instance = new sessionQueryRepository();
+const instance = new SessionQueryRepository();
 
 export default instance;
 

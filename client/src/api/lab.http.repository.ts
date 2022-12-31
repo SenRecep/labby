@@ -1,11 +1,12 @@
 import axios from "@/helpers/labby.axios";
 import { HttpRepositoryBase } from "./HttpRepositoryBase";
+import { User } from "@/types/User.interface";
 
 export interface LabStatus {
   status: string;
   count: number;
   intensity: string;
-  assistant: string;
+  assistant?: User;
 }
 
 export class LabHttpRepository extends HttpRepositoryBase {
@@ -13,12 +14,12 @@ export class LabHttpRepository extends HttpRepositoryBase {
     return this.send(axios.get("/session/lab"), callback);
   }
   open(
-    assistant: unknown,
+    assistant?: User,
     callback: ((data: any) => void) | undefined = undefined
   ) {
     return this.send(
       axios.post("/session", {
-        assistant,
+        assistant: assistant?.id,
       }),
       callback
     );
