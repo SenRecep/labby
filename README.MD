@@ -42,3 +42,40 @@ Lab açıldıktan sonra öğrenciler sisteme giriş yapabilirler. Kullanıcı si
 Lab sorumlusu asistant, labı başka bir asistana devredebilir.
 
 Asistant labı kapattığı sırada labda bulunan tüm kullanıcılar sistem tarafından labdan çıkarılır. Kullanıcıların çıkış saatleri ve labın kapanış saati eklenir.
+
+## Kurulum
+Client ve Server projelerinin içerisinde bullanan .env.example dosyalarının adlarını .env olacak şekilde yeniden adlandırın ve içerisinde istenilen bilgileri düzenleyin
+
+### Server projesinin kurulumu
+
+```bash
+$ cd server
+$ npm install
+```
+```bash
+# development
+$ npm run dev
+
+# build
+$ npm run build
+
+# preview
+$ npm run preview
+```
+
+
+
+### Client projesinin kurulumu
+
+```bash
+$ cd client
+$ npm install
+```
+```bash
+# development
+$ npm run dev
+
+# preview
+$ npm run start
+```
+
