@@ -16,7 +16,7 @@ const UserSessionSchema = new Schema({
   },
   exitTime: {
     type: Date,
-    required: false,
+    default:null
   },
 });
 

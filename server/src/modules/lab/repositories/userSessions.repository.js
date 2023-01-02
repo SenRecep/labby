@@ -14,7 +14,13 @@ class UserSessionRepository {
         HttpStatusCodes.BAD_REQUEST,
         "UserSessionRepository->userSesRepository"
       );
-
+      const userInLab= await this.isUserInLab(userId);
+      if(userInLab) 
+      throw new ApiError(
+        "User already in lab",
+        HttpStatusCodes.BAD_REQUEST,
+        "UserSessionRepository->userSesRepository"
+      );
     const userSession = await UserSession.create({
       user: userId,
       session: session.id,
@@ -36,7 +42,7 @@ class UserSessionRepository {
     const updateTime = await UserSession.findOneAndUpdate(
       {
         session: found.id,
-        userId: userId,
+        user: userId,
         exitTime: null,
       },
       {
