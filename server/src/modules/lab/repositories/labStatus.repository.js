@@ -17,7 +17,7 @@ class labStatusRepository {
 
   getIntensity(users) {
     const rate = (users.length / LabInfo.capacity) * 100;
-    return `%${rate}`;
+    return `%${rate.toFixed(0)}`;
   }
 
   async getLabStatus() {
