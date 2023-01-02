@@ -62,7 +62,9 @@ const formSubmit = async () => {
             class="mb-4"
             v-if="apiErrors.errors.length > 0"
           >
-            <span v-for="error in apiErrors.errors">{{ error }} </span><br />
+            <template v-for="error in apiErrors.errors">
+              <span>{{ error }} </span><br />
+            </template>
           </v-alert>
           <v-form @submit.prevent="formSubmit">
             <v-text-field

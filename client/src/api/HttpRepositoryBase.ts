@@ -12,8 +12,11 @@ export class HttpRepositoryBase {
         return data;
       })
       .catch((error) => {
-        if (callback) callback(error);
-        return error;
+        const {
+          response: { data },
+        } = error;
+        if (callback) callback(data);
+        return data;
       });
   }
 }
