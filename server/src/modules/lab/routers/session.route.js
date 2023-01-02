@@ -21,12 +21,7 @@ router
   .route("/all")
   .get(requiredRoleMiddleware([RoleInfo.assistant]), getAllSessions);
 
-router
-  .route("/lab")
-  .get(
-    requiredRoleMiddleware([RoleInfo.assistant, RoleInfo.admin]),
-    getLabStatus
-  );
+router.route("/lab").get(getLabStatus);
 
 router
   .route("/history")
