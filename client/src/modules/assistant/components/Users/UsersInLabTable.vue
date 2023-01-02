@@ -17,9 +17,9 @@ defineProps<{
     <tbody>
       <tr v-for="item in usersInLab" :key="item.id">
         <td>{{ item.entryTime }}</td>
-        <td>{{ item.user.fullName }}</td>
-        <td>{{ item.user.phone }}</td>
-        <td>{{ item.user.email }}</td>
+        <td>{{ item.user?.fullName }}</td>
+        <td>{{ item.user?.phone }}</td>
+        <td>{{ item.user?.email }}</td>
       </tr>
     </tbody>
   </v-table>

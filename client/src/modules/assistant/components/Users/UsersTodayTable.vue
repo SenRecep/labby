@@ -24,9 +24,9 @@ defineProps<{
         <template v-else>
           <td><v-icon icon="mdi-circle" color="green" /> In Lab</td>
         </template>
-        <td>{{ item.user.fullName }}</td>
-        <td>{{ item.user.phone }}</td>
-        <td>{{ item.user.email }}</td>
+        <td>{{ item.user?.fullName }}</td>
+        <td>{{ item.user?.phone }}</td>
+        <td>{{ item.user?.email }}</td>
       </tr>
     </tbody>
   </v-table>
